@@ -4,7 +4,8 @@
 
 ## Base De Datos (`base.py`)
 
-La clase `DatabaseManagementSystem` tiene *dos metodos de clase*.
+La clase `DatabaseManagementSystem` se encarga de toda la administracion, gestion y manipulacion de la base de datos.
+Por otra parte la clase `DatabaseManagementSystem` tiene *dos metodos de clase*.
 
 - Metodo `initilize_tables()`:
     - Inicialisa o crea las tablas necesarias en la base de datos.
@@ -15,7 +16,7 @@ La clase `DatabaseManagementSystem` tiene *dos metodos de clase*.
       DatabaseManagementSystem.initilize_tables()
       ```
 
-- Metodo `run_query()`:
+- Metodo `run_query()` (**Aviso:** ¡Tener cuidado al ejecutar las consultas SQL!):
     - Ejecuta una consulta SQL dada, en la base de datos.
 
     - Por ejemplo, si quieres hacer un consulta SQL, seria de la siguiente manera:
@@ -52,6 +53,8 @@ DatabaseManagementSystem.run_query(...)
 ```
 
 ## Usuarios (`users.py`)
+
+La clase `User` se encargara de gestionar y manipular los usuarios.
 
 **Crear usuarios:**
 
