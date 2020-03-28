@@ -1,7 +1,6 @@
-import os
-import time
-from collections import Counter
-from colorama import Cursor, init, Fore, Back
+"""
+
+Antes estaba asi:
 
 system = os.name
 
@@ -15,3 +14,27 @@ class clear:
 			os.system('clear')
 		else:
 			print("Lo lamento, tu terminal no es compatible :(")
+
+Mejore el codigo a un funcion, creo inecesario crear una clase para
+una funcion tan simple como limpiar la pantalla. 
+Este comentario se eliminara dentro de poco, mas que nada para que vean el cambio.
+De ser posible anoten sus nombres xd
+
+"""
+
+# Author: JCVBS o 67
+
+import sys
+import os
+
+OPERATING_SYSTEM_TYPE = sys.platform
+
+def clear():
+	if OPERATING_SYSTEM_TYPE in ['linux', 'linux2']:
+		os.system('cls')
+
+	elif OPERATING_SYSTEM_TYPE in ['win32', 'cygwin', 'msys']:
+		os.system('clear')
+
+	else:
+		print("Lo lamento, tu terminal no es compatible :(")
