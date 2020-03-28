@@ -26,13 +26,13 @@ retornara `True`, caso contrario retornara `False`.
 
 **Nota:**
 
-En la base de datos se guarda el hash de la contraseña no la contraseña como tal.
-Asi que el sistema de autenticasion es seguro.
+*En la base de datos se guarda el hash de la contraseña no la contraseña como tal.
+Asi que el sistema de autenticasion es seguro.*
 
 
 ## Base De Datos (`base.py`)
 
-La clase `DatabaseManagementSystem` tiene 2 metodos de clase.
+La clase `DatabaseManagementSystem` tiene *dos metodos de clase*.
 
 - Metodo `initilize_tables()`:
     - Inicialisa o crea las tablas necesarias en la base de datos.
