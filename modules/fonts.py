@@ -2,33 +2,31 @@ from colorama import Cursor, init, Fore, Back, Style
 import time
 
 # Author: JCVBS / 67
-# Se reduce bastante codigo con esta funcion, pues se repetie demasiado dicho codigo.
+# Se reduce bastante codigo con esta constante, pues se repetie demasiado codigo.
 
-def color_filter(color):
-	color = color.lower()
-	if color == 'red': color = Fore.RED
-	elif color == 'blue': color = Fore.BLUE
-	elif color == 'cyan': color = Fore.CYAN
-	elif color == "black": color = Fore.BLACK
-	elif color == 'white': color = Fore.WHITE
-	elif color == 'green': color = Fore.GREEN
-	elif color == 'normal': color = Fore.RESET
-	elif color == 'yellow': color = Fore.YELLOW
-	elif color == 'magenta': color = Fore.MAGENTA
-
-	return color
+COLORS = {
+	'normal': Fore.RESET,
+	'yellow': Fore.YELLOW,
+	'red': Fore.RED,
+	'blue': Fore.BLUE,
+	'cyan': Fore.CYAN,
+	'magenta': Fore.MAGENTA,
+	'black': Fore.BLACK,
+	'white': Fore.WHITE,
+	'green': Fore.GREEN,
+}
 
 class delgada:
 	init()
 
 	def simple(color, line, column, text):
-		color = color_filter(color)
+		color = COLORS[color.lower()]
 
 		print(Cursor.UP(line) + Cursor.FORWARD(column) + Style.DIM + color + text)
 		print(Cursor.DOWN(line -2))
 
 	def animado(color, line, column, Time, text):
-		color = color_filter(color)
+		color = COLORS[color.lower()]
 		text = list(text)
 		column -= 1
 
@@ -54,13 +52,13 @@ class delgada:
 class normal:
 	init()
 	def simple(color, line, column, text):
-		color = color_filter(color)
+		color = COLORS[color.lower()]
 
 		print(Cursor.UP(line) + Cursor.FORWARD(column) + Style.NORMAL + color + text)
 		print(Cursor.DOWN(line -2))
 
 	def animado(color, line, column, Time, text):
-		color = color_filter(color)
+		color = COLORS[color.lower()]
 		text = list(text)
 		column -= 1
 
@@ -86,13 +84,13 @@ class normal:
 class negrita:
 	init()
 	def simple(color, line, column, text):
-		color = color_filter(color)
+		color = COLORS[color.lower()]
 
 		print(Cursor.UP(line) + Cursor.FORWARD(column) + Style.BRIGHT + color + text)
 		print(Cursor.DOWN(line -2))
 
 	def animado(color, line, column, Time, text):
-		color = color_filter(color)
+		color = COLORS[color.lower()]
 		text = list(text)
 		column -= 1
 
