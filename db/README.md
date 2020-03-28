@@ -1,8 +1,8 @@
 
 
-## La clase "User()"
+## Usuarios
 
-CREAR USUARIOS:
+### CREAR USUARIOS:
 
 Para crear un usuario seria de la siguiente manera:
 ```python
@@ -30,7 +30,7 @@ En la base de datos se guarda el hash de la contraseña no la contraseña como t
 Asi que el sistema de Autenticasion es seguro.
 
 
-## La clase DatabaseManagementSystem() 
+## Base De Datos
 
 La clase `DatabaseManagementSystem` tiene 2 metodos de clase.
 
@@ -39,14 +39,18 @@ La clase `DatabaseManagementSystem` tiene 2 metodos de clase.
 
     - Ejemplo de como insialisar las tablas:
 
-      ```DatabaseManagementSystem.initilize_tables()```
+      ```python
+      DatabaseManagementSystem.initilize_tables()
+      ```
 
 - `run_query()`:
     - Ejecuta una consulta SQL dada, en la base de datos.
 
     - Por ejemplo, si quieres hacer un consulta SQL, seria de la siguiente manera:
 
-     ```DatabaseManagementSystem.run_query("SELECT * FROM users")```
+      ```python
+      DatabaseManagementSystem.run_query("SELECT * FROM users")
+      ```
 
     - El metodo `run_query()` se encargara de ejecutar la consulta, y retornara el resultado.
 
