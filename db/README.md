@@ -1,4 +1,55 @@
+# Documentacion:
 
+*Documentacion del codigo escrito en este modulo. Author: JCVBS / 67*
+
+## Base De Datos (`base.py`)
+
+La clase `DatabaseManagementSystem` tiene *dos metodos de clase*.
+
+- Metodo `initilize_tables()`:
+    - Inicialisa o crea las tablas necesarias en la base de datos.
+
+    - Ejemplo de como insialisar las tablas:
+
+      ```python
+      DatabaseManagementSystem.initilize_tables()
+      ```
+
+- Metodo `run_query()`:
+    - Ejecuta una consulta SQL dada, en la base de datos.
+
+    - Por ejemplo, si quieres hacer un consulta SQL, seria de la siguiente manera:
+
+      ```python
+      # El metodo run_query() se encargara de ejecutar la consulta, y retornara el resultado.
+      DatabaseManagementSystem.run_query("SELECT * FROM users")
+      ```
+      
+------------------
+
+**Advertencia:**
+
+Los metodos `initilize_tables()` y `run_query()` son metodos de 
+clase (`@classmethod`), no metodos de instancia.
+
+No es necesario crear una instancia de la clase `DatabaseManagementSystem`.
+
+Por ejemplo esto no es necesario:
+
+```python
+# Malo
+DatabaseManagementSystem().run_query(...)
+
+# Malo 
+x = DatabaseManagementSystem()
+x.run_query(...)
+```
+Lo correcto seria asi:
+
+```python
+# Bueno
+DatabaseManagementSystem.run_query(...)
+```
 
 ## Usuarios (`users.py`)
 
@@ -65,56 +116,6 @@ else:
 
 *En la base de datos se guarda el hash de la contraseña no la contraseña como tal.
 Asi que el sistema de autenticasion es seguro.*
-
-
-## Base De Datos (`base.py`)
-
-La clase `DatabaseManagementSystem` tiene *dos metodos de clase*.
-
-- Metodo `initilize_tables()`:
-    - Inicialisa o crea las tablas necesarias en la base de datos.
-
-    - Ejemplo de como insialisar las tablas:
-
-      ```python
-      DatabaseManagementSystem.initilize_tables()
-      ```
-
-- Metodo `run_query()`:
-    - Ejecuta una consulta SQL dada, en la base de datos.
-
-    - Por ejemplo, si quieres hacer un consulta SQL, seria de la siguiente manera:
-
-      ```python
-      # El metodo run_query() se encargara de ejecutar la consulta, y retornara el resultado.
-      DatabaseManagementSystem.run_query("SELECT * FROM users")
-      ```
-      
-------------------
-
-**Advertencia:**
-
-Los metodos `initilize_tables()` y `run_query()` son metodos de 
-clase (`@classmethod`), no metodos de instancia.
-
-No es necesario crear una instancia de la clase `DatabaseManagementSystem`.
-
-Por ejemplo esto no es necesario:
-
-```python
-# Malo
-DatabaseManagementSystem().run_query(...)
-
-# Malo 
-x = DatabaseManagementSystem()
-x.run_query(...)
-```
-Lo correcto seria asi:
-
-```python
-# Bueno
-DatabaseManagementSystem.run_query(...)
-```
 
 ---------------------
 
