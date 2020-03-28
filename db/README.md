@@ -59,8 +59,7 @@ else:
 
 **Advertencia:**
 
-*Antes de trabajar o utilisa, con la clase `User()`, primero que nada hay que inicialisar las tablas en la base de datos!,
-caso contrario habra multiples errores!*
+*ANTES DE TRABAJAR O UTILISAR LA CLASE `User()`, PRIMERO QUE NADA HAY QUE INICIALISAR LAS TABLAS EN LA BASE DE DATOS! CASO CONTRARIO OCURRIRAN MULTIPLES ERRORES!*
 
 **Nota:**
 
@@ -116,3 +115,7 @@ Lo correcto seria asi:
 # Bueno
 DatabaseManagementSystem.run_query(...)
 ```
+
+---------------------
+
+*Progresivamente se estara mejorando el codigo y añadiendo mas funcionalidades. Atentamente: JCVBS / 67.*
