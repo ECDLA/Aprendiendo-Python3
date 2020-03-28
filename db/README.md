@@ -24,7 +24,7 @@ User('nombre_de_usuario', 'contraseña').authenticate_user()
 Si el usuario escribio el usuario y contraseña correctos el metodo `authenticate_user()`
 retornara `True`, caso contrario retornara `False`.
 
-**Ejemplo de un login simple:**
+**Login simple:**
 
 *Este es un ejemplo sencillo de un login, para que sepan como trabajar con la clase `User()`*
 
@@ -39,6 +39,28 @@ if User(username, password).authenticate_user():
 else:
     print('Nombre de usuario o contraseña incorrectos :(')
 ```
+
+**Registro simple**
+
+*Este es un ejemplo sencillo de un registro, para que sepan como trabajar con la clase `User()`*
+
+```python
+from ... import User
+
+username = input('Nombre de usuario:')
+password1 = input('Contraseña:')
+password2 = input('Repite la contraseña:')
+
+if password1 == password2 and User(username, password1).create_user():
+    print('Te has registrado correctamente!')
+else:
+    print('Ah ocurrido un error!, lo mas probable es que utilisaste un nombre de usuario ya existente')
+```
+
+**Advertencia:**
+
+*Antes de trabajar o utilisa, con la clase `User()`, primero que nada hay que inicialisar las tablas en la base de datos!,
+caso contrario habra multiples errores!*
 
 **Nota:**
 
