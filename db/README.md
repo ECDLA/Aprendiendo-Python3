@@ -38,7 +38,7 @@ La clase "DatabaseManagementSystem" tiene 2 metodos de clase.
 
     - Ejemplo de como insialisar las tablas:
 
-    - DatabaseManagementSystem.initilize_tables()
+      DatabaseManagementSystem.initilize_tables()
 
 - run_query()
     - Ejecuta una consulta SQL dada, en la base de datos.
