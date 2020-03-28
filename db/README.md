@@ -1,8 +1,6 @@
-####################
-##      User      ##
-####################
 
-La clase "User":
+
+## La clase "User()" ##
 
 CREAR USUARIOS:
 
@@ -30,27 +28,26 @@ NOTA:
 En la base de datos se guarda el hash de la contraseña no la contraseña como tal.
 Asi que el sistema de Autenticasion es seguro.
 
-##############################
-## DatabaseManagementSystem ##                     
-##############################
+
+## La clase DatabaseManagementSystem() ##
 
 La clase "DatabaseManagementSystem" tiene 2 metodos de clase.
 
-initilize_tables()
-    Inicialisa o crea las tablas necesarias en la base de datos.
+- initilize_tables()
+    - Inicialisa o crea las tablas necesarias en la base de datos.
 
-    Ejemplo de como insialisar las tablas:
+    - Ejemplo de como insialisar las tablas:
 
-    DatabaseManagementSystem.initilize_tables()
+    - DatabaseManagementSystem.initilize_tables()
 
-run_query()
-    Ejecuta una consulta SQL dada, en la base de datos.
+- run_query()
+    - Ejecuta una consulta SQL dada, en la base de datos.
 
-    Por ejemplo, si quieres hacer un consulta SQL, seria de la siguiente manera:
+    - Por ejemplo, si quieres hacer un consulta SQL, seria de la siguiente manera:
 
-    DatabaseManagementSystem.run_query("SELECT * FROM users")
+    - DatabaseManagementSystem.run_query("SELECT * FROM users")
 
-    El metodo "run_query()" se encargara de ejecutar la consulta, y retornara el resultado.
+    - El metodo "run_query()" se encargara de ejecutar la consulta, y retornara el resultado.
 
 ADVERTENCIA: 
 
