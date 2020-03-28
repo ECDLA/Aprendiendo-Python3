@@ -22,7 +22,7 @@ De ser posible anoten sus nombres xd
 
 """
 
-# Author: JCVBS o 67
+# Author: JCVBS / 67
 
 import sys
 import os

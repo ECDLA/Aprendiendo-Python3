@@ -20,6 +20,7 @@ class delgada:
 	init()
 
 	def simple(color, line, column, text):
+		# Aqui se mejora el codigo
 		color = COLORS[color.lower()]
 
 		print(Cursor.UP(line) + Cursor.FORWARD(column) + Style.DIM + color + text)
