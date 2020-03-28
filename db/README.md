@@ -1,6 +1,6 @@
 
 
-## Usuarios
+## Usuarios (`users.py`)
 
 **Crear usuarios:**
 
@@ -27,10 +27,10 @@ retornara `True`, caso contrario retornara `False`.
 **Nota:**
 
 En la base de datos se guarda el hash de la contraseña no la contraseña como tal.
-Asi que el sistema de Autenticasion es seguro.
+Asi que el sistema de autenticasion es seguro.
 
 
-## Base De Datos
+## Base De Datos (`base.py`)
 
 La clase `DatabaseManagementSystem` tiene 2 metodos de clase.
 
@@ -49,10 +49,11 @@ La clase `DatabaseManagementSystem` tiene 2 metodos de clase.
     - Por ejemplo, si quieres hacer un consulta SQL, seria de la siguiente manera:
 
       ```python
+      # El metodo run_query() se encargara de ejecutar la consulta, y retornara el resultado.
       DatabaseManagementSystem.run_query("SELECT * FROM users")
       ```
-
-    - El metodo `run_query()` se encargara de ejecutar la consulta, y retornara el resultado.
+      
+------------------
 
 **Advertencia:**
 
