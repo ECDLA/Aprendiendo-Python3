@@ -1,27 +1,3 @@
-"""
-
-Antes estaba asi:
-
-system = os.name
-
-class clear:
-	def __init__(self):
-		global system
-
-		if system == 'nt':
-			os.system('cls')
-		elif system == 'posix':
-			os.system('clear')
-		else:
-			print("Lo lamento, tu terminal no es compatible :(")
-
-Mejore el codigo a un funcion, creo inecesario crear una clase para
-una funcion tan simple como limpiar la pantalla. 
-Este comentario se eliminara dentro de poco, mas que nada para que vean el cambio.
-De ser posible anoten sus nombres xd
-
-"""
-
 # Author: JCVBS / 67
 
 import sys
