@@ -119,8 +119,8 @@ else:
 
 Cada usuario por defecto tiene una configuracion de terminal predeterminada.
 
-    - Color predeterminado de la terminal (`color`), que debe ser de tipo texto.
-    - Velocidad de texto predeterminada de la terminal (`text_speed`), que debe ser de tipo decimal o float.
+- Color predeterminado de la terminal (`color`), que debe ser de tipo texto.
+- Velocidad de texto predeterminada de la terminal (`text_speed`), que debe ser de tipo decimal o float.
 
 Para cambiar los valores por defecto del color y la velocidad de texo de la terminal, hay que situarnos en el archivo `users.py`, y modificar las constantes `USER_DEFAULT_COLOR` y `USER_DEFAULT_TEXT_SPEED`, de la siguiente manera:
 
@@ -153,24 +153,24 @@ Para actualisar la configuracion de un usuario, hay que utilisar el **metodo de 
 
 La clase `User` tiene dos **metodos de clase**, que son utilidades o se denominan asi, pues fueron creadas para eso, para ser utiles:
 
-    - Metodo `generate_password_hash()`:
-        - Genera un hash de contraseña que es pasada como argumento, y la devuelve. Se puede dar una situacion que requiera generar el hash de una contraseña de un usuario.
+- Metodo `generate_password_hash()`:
+    - Genera un hash de contraseña que es pasada como argumento, y la devuelve. Se puede dar una situacion que requiera generar el hash de una contraseña de un usuario.
 
-        - Ejemplo de como usuarlo:
+    - Ejemplo de como usuarlo:
 
-        ```python
-        >>> User.generate_password_hash('contraseña')
-        '4c882dcb24bcb1bc225391a602feca7c'
-        ``` 
+    ```python
+    >>> User.generate_password_hash('contraseña')
+    '4c882dcb24bcb1bc225391a602feca7c'
+    ``` 
 
-    - Metodo `get_all_users()`:
-        - Devuelve todos los usuarios registrados en la base de datos.
+- Metodo `get_all_users()`:
+    - Devuelve todos los usuarios registrados en la base de datos.
 
-        - Ejmplo de como usarlo:
+    - Ejmplo de como usarlo:
 
-        ```python
-        >>> User.get_all_users()
-        [(1, 'nombre_de_usuario', 'contraseña'), (2, 'nombre_de_usuario2', 'contraseña2')]
+    ```python
+    >>> User.get_all_users()
+    [(1, 'nombre_de_usuario', 'contraseña'), (2, 'nombre_de_usuario2', 'contraseña2')]
         ```
 
 ----------------------
