@@ -131,7 +131,7 @@ USER_DEFAULT_TEXT_SPEED = 55555.0777
 ...
 ```
 
-Para obtener la configuracion de un usuario en especifico, hay que utilisar el **metodo de instancia** `get_user_configuration()`, que retornara en un diccionario la configuracion de dicho usuario, de la siguiente manera:
+Para obtener la configuracion de un usuario en especifico, hay que utilisar el **metodo de instancia** `get_user_configuration()`, que retornara en un diccionario la configuracion de dicho usuario (si no existe el usuario ocurrira una excepcion o error), de la siguiente manera:
 
 ```python
 >>> user = User('Juan', 'juan123')
@@ -139,7 +139,7 @@ Para obtener la configuracion de un usuario en especifico, hay que utilisar el *
 {'color': 'red', 'text_speed': 5.0}
 ```
 
-Para actualisar la configuracion de un usuario, hay que utilisar el **metodo de instancia** `set_user_configuration()`, que recibe como argumentos, los nuevos valores de `color` y `text_speed`, y dicho metodo retornara la nueva configuracion, de la siguiente manera:
+Para actualisar la configuracion de un usuario, hay que utilisar el **metodo de instancia** `set_user_configuration()`, que recibe como argumentos, los nuevos valores de `color` y `text_speed`, y dicho metodo retornara la nueva configuracion (si no existe el usuario ocurrira una excepcion o error), de la siguiente manera:
 
 ```python
 >>> user = User('Juan', 'juan123')
