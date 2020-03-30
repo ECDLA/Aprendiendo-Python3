@@ -180,6 +180,4 @@ La clase `User` tiene dos **metodos de clase**, que son utilidades o se denomina
 *En la base de datos se guarda el hash de la contraseña no la contraseña como tal.
 Asi que el sistema de autenticasion es seguro.*
 
----------------------
-
 *Progresivamente se estara mejorando el codigo y añadiendo mas funcionalidades. Atentamente: JCVBS / 67.*
