@@ -2,6 +2,10 @@
 
 *Documentacion del codigo escrito en este modulo. Author: JCVBS / 67*
 
+**Advertencia:**
+
+*COMO PRIORIDAD, ANTES DE EJECUTAR O UTILISAR CUALQUIER FUNCION, METODO O CLASE DE ESTE MODULO("db"), POR FABOR, INICIALISAR LAS TABLAS, PARA EVITAR MULTIPLES ERRORES!*
+
 ## Base De Datos (`base.py`)
 
 La clase `DatabaseManagementSystem` se encarga de toda la administracion, gestion y manipulacion de la base de datos.
@@ -111,9 +115,65 @@ else:
     print('Ah ocurrido un error!, lo mas probable es que utilisaste un nombre de usuario ya existente')
 ```
 
-**Advertencia:**
+**Configuraciones de usuario:**
 
-*ANTES DE TRABAJAR O UTILISAR LA CLASE `User()`, PRIMERO QUE NADA HAY QUE INICIALISAR LAS TABLAS EN LA BASE DE DATOS! CASO CONTRARIO OCURRIRAN MULTIPLES ERRORES!*
+Cada usuario por defecto tiene una configuracion de terminal predeterminada.
+
+    - Color predeterminado de la terminal (`color`), que debe ser de tipo texto.
+    - Velocidad de texto predeterminada de la terminal (`text_speed`), que debe ser de tipo decimal o float.
+
+Para cambiar los valores por defecto del color y la velocidad de texo de la terminal, hay que situarnos en el archivo `users.py`, y modificar las constantes `USER_DEFAULT_COLOR` y `USER_DEFAULT_TEXT_SPEED`, de la siguiente manera:
+
+```python
+...
+USER_DEFAULT_COLOR = 'color que quiera'
+USER_DEFAULT_TEXT_SPEED = 55555.0777
+...
+```
+
+Para obtener la configuracion de un usuario en especifico, hay que utilisar el **metodo de instancia** `get_user_configuration()`, que retornara en un diccionario la configuracion de dicho usuario, de la siguiente manera:
+
+```python
+>>> user = User('Juan', 'juan123')
+>>> user.get_user_configuration()
+{'color': 'red', 'text_speed': 5.0}
+```
+
+Para actualisar la configuracion de un usuario, hay que utilisar el **metodo de instancia** `set_user_configuration()`, que recibe como argumentos, los nuevos valores de `color` y `text_speed`, y dicho metodo retornara la nueva configuracion, de la siguiente manera:
+
+```python
+>>> user = User('Juan', 'juan123')
+>>> user.get_user_configuration()
+{'color': 'red', 'text_speed': 5.0}
+>>> user.set_user_configuration('cyan', 8.0)
+{'color': 'cyan', 'text_speed': 8.0}
+```
+
+**Utilidades de la clase User:**
+
+La clase `User` tiene dos **metodos de clase**, que son utilidades o se denominan asi, pues fueron creadas para eso, para ser utiles:
+
+    - Metodo `generate_password_hash()`:
+        - Genera un hash de contraseña que es pasada como argumento, y la devuelve. Se puede dar una situacion que requiera generar el hash de una contraseña de un usuario.
+
+        - Ejemplo de como usuarlo:
+
+        ```python
+        >>> User.generate_password_hash('contraseña')
+        '4c882dcb24bcb1bc225391a602feca7c'
+        ``` 
+
+    - Metodo `get_all_users()`:
+        - Devuelve todos los usuarios registrados en la base de datos.
+
+        - Ejmplo de como usarlo:
+
+        ```python
+        >>> User.get_all_users()
+        [(1, 'nombre_de_usuario', 'contraseña'), (2, 'nombre_de_usuario2', 'contraseña2')]
+        ```
+
+----------------------
 
 **Nota:**
 

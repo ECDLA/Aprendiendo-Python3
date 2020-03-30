@@ -99,6 +99,5 @@ class User(DatabaseManagementSystem):
         else:
             raise UserNotExists(f'User "{ self.username }" does not exist.')
     
-
 if __name__ == '__main__':
-    User('lcteenn', 'jcteen-2004').create_user()
+    pass
