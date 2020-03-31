@@ -37,7 +37,7 @@ class User(DatabaseManagementSystem):
                 query = 'INSERT INTO users VALUES(?, ?, ?)'
 
                 password_hash = self.generate_password_hash(self.__password)
-                result = self.run_query(query, (None, self.username, password_hash))
+                self.run_query(query, (None, self.username, password_hash))
 
                 query = 'SELECT id FROM users WHERE username = ?'
                 result = self.run_query(query, (self.username,)).fetchall()
@@ -82,7 +82,7 @@ class User(DatabaseManagementSystem):
         if self.authenticate_user():
             # Update user settings
             query = 'UPDATE users_configuration SET color = ?, text_speed = ? WHERE user_id = ?'
-            self.run_query(query, (color, text_speed, self.id)).fetchall()
+            self.run_query(query, (color, text_speed, self.id))
 
             return {'color': color, 'text_speed': text_speed}
 
