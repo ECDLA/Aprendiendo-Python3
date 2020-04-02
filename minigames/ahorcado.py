@@ -1,56 +1,105 @@
+import importlib
 import random
 import os
-AHORCADO = ['''
+
+#importlib.import_module('..modules.system', 'system')
+#from aprendiendo_python3.modules import system
+
+AHORCADO = [
+    '''
       +---+
       |   |
           |
           |
           |
           |
-    =========''', '''
+    =========
+    ''', 
+    '''
       +---+
       |   |
       O   |
           |
           |
           |
-    =========''', '''
+    =========
+    ''', 
+    '''
       +---+
       |   |
       O   |
       |   |
           |
           |
-    =========''', '''
+    =========
+    ''', 
+    '''
       +---+
       |   |
       O   |
      /|   |
           |
           |
-    =========''', '''
+    =========
+    ''', 
+    '''
       +---+
       |   |
       O   |
      /|\  |
           |
           |
-    =========''', '''
+    =========
+    ''', 
+    '''
       +---+
       |   |
       O   |
      /|\  |
      /    |
           |
-    =========''', '''
+    =========
+    ''', 
+    '''
       +---+
       |   |
       O   |
      /|\  |
      / \  |
           |
-    =========''']
-palabras = 'valoracion aprenderpython comida juego python web imposible variable curso volador cabeza reproductor mirada escritor billete lapicero celular valor revista gratuito disco voleibol anillo estrella'.split()
+    =========
+    '''
+]
+
+# Author: JCVBS / 67
+# Es mejor de esta manera, mas legible.
+
+WORDS = [
+    'valoracion',
+    'aprenderpython',
+    'comida',
+    'juego',
+    'python',
+    'web',
+    'imposible',
+    'variable',
+    'curso',
+    'volador',
+    'cabeza',
+    'reproductor',
+    'mirada',
+    'escritor',
+    'billete',
+    'lapicero',
+    'celular',
+    'valor',
+    'revista',
+    'gratuito',
+    'disco',
+    'voleibol',
+    'anillo',
+    'estrella',
+]
 
 def borrarPantalla():
     if os.name == "posix":
@@ -59,9 +108,7 @@ def borrarPantalla():
         os.system("cls")
 
 def buscarPalabraAleat(listaPalabras):
-    # Esta funcion retorna una palabra aleatoria.
-    palabraAleatoria = random.randint(0, len(listaPalabras) - 1)
-    return listaPalabras[palabraAleatoria]
+    return random.choice(WORDS)
 
 def displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta):
     borrarPantalla()
@@ -99,13 +146,13 @@ def elijeLetra(algunaLetra):
 
 def empezar():
     # Esta funcion devuelve True si el jugador quiere volver a jugar, de lo contrario devuelve False
-    print ('Quieres jugar de nuevo? (Si o No)')
+    print('Quieres jugar de nuevo? (Si o No)')
     return input().lower().startswith('s')
 
-print ('A H O R C A D O')
+print('A H O R C A D O')
 letraIncorrecta = ""
 letraCorrecta = ""
-palabraSecreta = buscarPalabraAleat(palabras)
+palabraSecreta = buscarPalabraAleat(WORDS)
 finJuego = False
 while True:
     displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta)
@@ -135,6 +182,6 @@ while True:
             letraIncorrecta = ""
             letraCorrecta = ""
             finJuego = False
-            palabraSecreta = buscarPalabraAleat(palabras)
+            palabraSecreta = buscarPalabraAleat(WORDS)
         else:
             break
