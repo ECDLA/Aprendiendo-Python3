@@ -24,7 +24,7 @@ if flicker == True:
 elif flicker == False:
 	flicker = curses.A_STANDOUT
 
-def ErrorMain():
+def error_main():
 	screen.addstr("¡ERROR!\n", curses.COLOR_RED | curses.A_BOLD | curses.A_BLINK)
 	escape = False
 
@@ -39,27 +39,28 @@ def ErrorMain():
 		elif x == curses.KEY_RESIZE:
 			screen.addstr("¡ERROR!\n", curses.color_pair(1) | curses.A_BOLD | curses.A_BLINK)
 
-def TittleMain():
+def tittle_main():
 	x = curses.LINES // 2
 	y = curses.COLS // 2
 
 	tittle = (' ~ A P R E N D I E N D O   P Y T H O N 3 ~ ')
 	screen.addstr(1, curses.COLS // 2 - len(tittle) // 2, tittle, curses.A_BOLD)
 
-def Options(num):
+def options(num, opt):
 	screen.border()
 	escape = False
-	TittleMain()
+	tittle_main()
 
-	UpDown(num)
+	up_down(num)
 
-	option = ('')
+	option = str(opt)
 
 	while escape == False:
 		key = screen.getch(2, 1)
 
 		if key == 258:
 			num -= 1
+
 			if num < 1:
 				num = 1
 
@@ -69,11 +70,12 @@ def Options(num):
 				option = ('')
 
 			screen.border()
-			UpDown(num)
+			up_down(num)
 			escape = False
 
 		elif key == 259:
 			num += 1
+
 			if num > 4:
 				num = 4
 
@@ -83,7 +85,7 @@ def Options(num):
 				option = ('')
 
 			screen.border()
-			UpDown(num)
+			up_down(num)
 			escape = False
 
 		elif key in [curses.KEY_ENTER, ord('\n'), 10]:
@@ -91,20 +93,23 @@ def Options(num):
 			curses.endwin()
 
 			if option == ('exit'):
-				MainExit(num)
+				main_exit(num)
+				
+			else:
+				pass
 
 		elif key == curses.KEY_RESIZE:
 			screen.erase()
 			screen.refresh()
 			escape = True
 			curses.endwin()
-			ErrorMain()
+			error_main()
 
-def UpDown(num):
+def up_down(num):
 	x = curses.LINES // 2
 	y = curses.COLS // 2
 
-	TittleMain()
+	tittle_main()
 
 	if num == 4:
 		screen.border()
@@ -178,7 +183,7 @@ def UpDown(num):
 
 		screen.addstr(x + 3, 3, '|> Salir ', curses.A_STANDOUT | flicker)
 
-def MainSpace():
+def main_space():
 	x = curses.LINES // 2
 	y = curses.COLS // 2
 
@@ -195,20 +200,20 @@ def MainSpace():
 			screen.erase()
 			screen.refresh()
 			escape = True
-			Options(4)
+			options(4, '')
 
 		elif key == curses.KEY_RESIZE:
 			screen.erase()
 			screen.refresh()
 			escape = True
 			curses.endwin()
-			ErrorMain()
+			error_main()
 
-def Main(screen):
-	TittleMain()
-	MainSpace()
+def main(screen):
+	tittle_main()
+	main_space()
 
-def MainExit(num):
+def main_exit(num):
 	z = curses.LINES // 2
 	screen.addstr(z + 3, 3, '|> Salir ', curses.A_STANDOUT)
 
@@ -238,10 +243,11 @@ def MainExit(num):
 
 		if key == 10:
 			escape = True
+
 		elif key == 27:
+			options(num, 'exit')
 			escape = True
-			Options(num)
 	
 
 if __name__ == '__main__':
-	curses.wrapper(Main)
+	curses.wrapper(main)
