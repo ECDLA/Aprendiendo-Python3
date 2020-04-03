@@ -5,7 +5,7 @@ import os
 
 OPERATING_SYSTEM_TYPE = sys.platform
 
-def clear():
+def clean_screen():
 	if OPERATING_SYSTEM_TYPE in ['linux', 'linux2']:
 		os.system('clear')
 

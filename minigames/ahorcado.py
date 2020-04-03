@@ -2,8 +2,6 @@ import importlib
 import random
 import os
 
-importlib.import_module('.aprendiendo_python3.menu', package='..aprendiendo_python3')
-
 AHORCADO = [
     '''
       +---+
@@ -106,9 +104,6 @@ def borrarPantalla():
     elif os.name == "ce" or os.name == "nt" or os.name == "dos":
         os.system("cls")
 
-def buscarPalabraAleat(listaPalabras):
-    return random.choice(WORDS)
-
 def displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta):
     borrarPantalla()
     print(AHORCADO[len(letraIncorrecta)])
@@ -151,8 +146,9 @@ def empezar():
 print('A H O R C A D O')
 letraIncorrecta = ""
 letraCorrecta = ""
-palabraSecreta = buscarPalabraAleat(WORDS)
+palabraSecreta = random.choice(WORDS)
 finJuego = False
+
 while True:
     displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta)
     # El usuario elije una letra.
@@ -181,6 +177,6 @@ while True:
             letraIncorrecta = ""
             letraCorrecta = ""
             finJuego = False
-            palabraSecreta = buscarPalabraAleat(WORDS)
+            palabraSecreta = random.choice(WORDS)
         else:
             break
