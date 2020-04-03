@@ -1,4 +1,5 @@
-import curses, time
+import curses
+import time
 
 screen = curses.initscr()
 

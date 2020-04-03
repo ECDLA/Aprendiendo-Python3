@@ -2,8 +2,7 @@ import importlib
 import random
 import os
 
-#importlib.import_module('..modules.system', 'system')
-#from aprendiendo_python3.modules import system
+importlib.import_module('.aprendiendo_python3.menu', package='..aprendiendo_python3')
 
 AHORCADO = [
     '''
