@@ -4,7 +4,6 @@ import time
 
 endGame = False
 
-
 def again():
     # Esta funcion devuelve True si el jugador quiere volver a jugar, de lo contrario devuelve False
     print ('Quieres jugar de nuevo? (Si o No)')
@@ -15,7 +14,6 @@ def clear():
         os.system("clear")
     elif os.name == "ce" or os.name == "nt" or os.name == "dos":
         os.system("cls")
-
 
 def decorate():
     print("=" * 50)

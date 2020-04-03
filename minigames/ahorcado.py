@@ -1,8 +1,9 @@
-import importlib
+from utils import clean_screen
 import random
+import time
 import os
 
-AHORCADO = [
+IMAGES = [
     '''
       +---+
       |   |
@@ -98,85 +99,47 @@ WORDS = [
     'estrella',
 ]
 
-def borrarPantalla():
-    if os.name == "posix":
-        os.system("clear")
-    elif os.name == "ce" or os.name == "nt" or os.name == "dos":
-        os.system("cls")
+def hanged():
+    secret_word = random.choice(WORDS)
+    wrong_letters = []
+    correct_letters = []
+    image_index = 0
+    letter = ''
 
-def displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta):
-    borrarPantalla()
-    print(AHORCADO[len(letraIncorrecta)])
-    print ("")
-    fin = " "
-    print ('Letras incorrectas:', fin)
-    for letra in letraIncorrecta:
-        print (letra, fin)
-    print ("")
-    espacio = '_' * len(palabraSecreta)
-    print("Letras Correctas")
-    for i in range(len(palabraSecreta)): # Remplaza los espacios en blanco por la letra bien escrita
-        if palabraSecreta[i] in letraCorrecta:
-            espacio = espacio[:i] + palabraSecreta[i] + espacio[i+1:]
-    for letra in espacio: # Mostrará la palabra secreta con espacios entre letras
-        print (letra, fin)
-    print ("")
-    
-
-def elijeLetra(algunaLetra):
-    # Devuelve la letra que el jugador ingreso. Esta función hace que el jugador ingrese una letra y no cualquier otra cosa
     while True:
-        print ('Adivina una letra:')
-        letra = input()
-        letra = letra.lower()
-        if len(letra) != 1:
-            print ('Introduce una sola letra.') 
-        elif letra in algunaLetra:
-            print ('Ya has elegido esa letra ¿Qué tal si pruebas con otra?')
-        elif letra not in 'abcdefghijklmnopqrstuvwxyz':
-            print ('Elije una letra.')
-        else:
-            return letra
+        clean_screen()
+        print(IMAGES[image_index])
+        print('Letras correctas:', ', '.join(correct_letters))
+        print('Letras incorrectas:', ', '.join(wrong_letters), end = '\n')
 
-def empezar():
-    # Esta funcion devuelve True si el jugador quiere volver a jugar, de lo contrario devuelve False
-    print('Quieres jugar de nuevo? (Si o No)')
-    return input().lower().startswith('s')
+        # Si es la ultima imagen entra al if
+        if len(IMAGES) - 1 == image_index:
+            if input('\nQuieres jugar de nuevo? [S/n]: ').lower().startswith('s'):
+                hanged()
 
-print('A H O R C A D O')
-letraIncorrecta = ""
-letraCorrecta = ""
-palabraSecreta = random.choice(WORDS)
-finJuego = False
-
-while True:
-    displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta)
-    # El usuario elije una letra.
-    letra = elijeLetra(letraIncorrecta + letraCorrecta)
-    if letra in palabraSecreta:
-        letraCorrecta = letraCorrecta + letra
-        # Se fija si el jugador ganó
-        letrasEncontradas = True
-        for i in range(len(palabraSecreta)):
-            if palabraSecreta[i] not in letraCorrecta:
-                letrasEncontradas = False
-                break
-        if letrasEncontradas:
-            print ('¡Muy bien! La palabra secreta es "' + palabraSecreta + '"! ¡Has ganado!')
-            finJuego = True
-    else:
-        letraIncorrecta = letraIncorrecta + letra
-        # Comprueba la cantidad de letras que ha ingresado el jugador y si perdió
-        if len(letraIncorrecta) == len(AHORCADO) - 1:
-            displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta)
-            print ('¡Se ha quedado sin letras!\nDespues de ' + str(len(letraIncorrecta)) + ' letras erroneas y ' + str(len(letraCorrecta)) + ' letras correctas, la palabra era "' + palabraSecreta + '"')
-            finJuego = True
-    # Pregunta al jugador si quiere jugar de nuevo
-    if finJuego:
-        if empezar():
-            letraIncorrecta = ""
-            letraCorrecta = ""
-            finJuego = False
-            palabraSecreta = random.choice(WORDS)
-        else:
             break
+        else:     
+            new_letter = input('\nAdivina una letra: ').lower()
+
+        if new_letter in '1234567890':
+            print('\nElije una letra no un numero.')
+            time.sleep(3)
+
+        elif len(new_letter) != 1:
+            print('\nIntroduce una sola letra.') 
+            time.sleep(3)
+
+        elif new_letter == letter:
+            print ('\nYa has elegido esa letra ¿Qué tal si pruebas con otra?')
+            time.sleep(3)
+        else:
+            # Asigna las letras correctas e incorrectas a sus respectivas listas
+            if new_letter not in secret_word:
+                letter = new_letter
+                wrong_letters.append(letter)
+                image_index += 1
+            else:
+                letter = new_letter
+                correct_letters.append(letter)
+        
+hanged()
