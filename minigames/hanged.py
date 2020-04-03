@@ -1,7 +1,6 @@
 from utils import clean_screen
 import random
 import time
-import os
 
 IMAGES = [
     '''
@@ -68,9 +67,6 @@ IMAGES = [
     =========
     '''
 ]
-
-# Author: JCVBS / 67
-# Es mejor de esta manera, mas legible.
 
 WORDS = [
     'valoracion',
