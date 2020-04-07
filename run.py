@@ -1,5 +1,4 @@
-import options
-import curses
+import curses, options, fonts
 
 screen = curses.initscr()
 
@@ -9,11 +8,12 @@ curses.start_color()
 curses.curs_set(0)
 screen.keypad(1)
 
+#------------------------------------Base de Datos------------------------------------
 animation = True
 flicker = True
 color_bold = ('white')
 color_lyrics = ('black')
-cursor = 5
+cursor = 1
 
 CURSOR = {
 	1: '|> ',
@@ -43,13 +43,6 @@ COLOR_BOLD = {
 	'green': curses.COLOR_GREEN,
 }
 
-OPTION = {
-	4: 'start',
-	3: 'options',
-	2: 'about',
-	1: 'exit'
-}
-
 #----------------Animacion SI/NO----------------
 if animation == True:
 	animation = 12
@@ -73,10 +66,25 @@ cursor = CURSOR[cursor]
 
 curses.init_pair(1, color_bold, color_lyrics)
 #----------------------------------------------
+#-------------------------------------------------------------------------------------
+
+TEXT = {
+	1: str('- Presione ESPACIO -'),
+	2: str('~ A P R E N D I E N D O   P Y T H O N 3 ~'),
+	3: str('Presione ENTER para confirmar...')
+}
+
+OPTION = {
+	4: 'start',
+	3: 'options',
+	2: 'about',
+	1: 'exit'
+}
+
+x = curses.LINES // 2
+y = curses.COLS // 2
 
 def process(num):
-	z = curses.LINES // 2
-
 	screen.border()
 	screen.refresh()
 
@@ -85,7 +93,6 @@ def process(num):
 
 	y = (curses.LINES - rows) // 2
 	x = (curses.COLS - cols) // 2
-
 
 	win = curses.newwin(rows, cols, y, x)
 
@@ -125,17 +132,10 @@ def error_main():
 		elif x == curses.KEY_RESIZE:
 			screen.addstr("¡ERROR!\n", curses.color_pair(1) | curses.A_BOLD | curses.A_BLINK)
 
-def tittle_main():
-	x = curses.LINES // 2
-	y = curses.COLS // 2
-
-	tittle = ('~ A P R E N D I E N D O   P Y T H O N 3 ~')
-	screen.addstr(1, curses.COLS // 2 - len(tittle) // 2, tittle, curses.A_BOLD)
-
 def opt(num, opt):
 	screen.border()
 	escape = False
-	tittle_main()
+	fonts.tittle(screen, TEXT[2])
 
 	up_down(num)
 
@@ -195,89 +195,50 @@ def opt(num, opt):
 			curses.endwin()
 			error_main()
 
-def up_down(num):
-	x = curses.LINES // 2
-	y = curses.COLS // 2
+def group():
+	screen.addstr(x - 3, 3, 'Comenzar      '),
+	screen.addstr(x - 1, 3, 'Opciones      '),
+	screen.addstr(x + 1, 3, 'Acerca De      '),
+	screen.addstr(x + 3, 3, 'Salir      ')
 
-	tittle_main()
+def up_down(num):
+	fonts.tittle(screen, TEXT[2])
 
 	if num == 4:
 		screen.border()
-		screen.addstr(x - 3, 6, '              ')
-		screen.addstr(x - 1, 3, 'Opciones      ')
-		screen.addstr(x + 1, 3, 'Acerca De      ')
-		screen.addstr(x + 3, 3, 'Salir      ')
+		line = x - 3 
+		group()
 
-		column = 2
-		text = list('|> Comenzar ')
-
-		for i in text:
-			column += 1
-			screen.addstr(x - 3, column, i, curses.color_pair(1) | curses.A_STANDOUT)
-			screen.refresh()
-			curses.napms(animation)
-
-		screen.addstr(x - 3, 3, '|> Comenzar ', curses.color_pair(1) | curses.A_STANDOUT | flicker)
+		screen.addstr(line, 3, '        ')
+		fonts.animation(screen, '|> Comenzar ', line, animation, flicker)
 
 	elif num == 3:
 		screen.border()
-		screen.addstr(x - 3, 3, 'Comenzar      ')
-		screen.addstr(x - 1, 3, '            ')
-		screen.addstr(x + 1, 3, 'Acerca De      ')
-		screen.addstr(x + 3, 3, 'Salir      ')
+		line = x - 1
+		group()
 
-		column = 2
-		text = list('|> Opciones ')
-
-		for i in text:
-			column += 1
-			screen.addstr(x - 1, column, i, curses.color_pair(1) | curses.A_STANDOUT)
-			screen.refresh()
-			curses.napms(animation)
-
-		screen.addstr(x - 1, 3, '|> Opciones ', curses.color_pair(1) | curses.A_STANDOUT | flicker)
+		screen.addstr(line, 3, '         ')
+		fonts.animation(screen, '|> Opciones ', line, animation, flicker)
 
 	elif num == 2:
 		screen.border()
-		screen.addstr(x - 3, 3, 'Comenzar      ')
-		screen.addstr(x - 1, 3, 'Opciones      ')
-		screen.addstr(x + 1 , 3, '             ')
-		screen.addstr(x + 3, 3, 'Salir      ')
+		line = x + 1
+		group()
 
-		column = 2
-		text = list('|> Acerca De')
+		screen.addstr(line, 3, '          ')
+		fonts.animation(screen, '|> Acerca De ', line, animation, flicker)
 
-		for i in text:
-			column += 1
-			screen.addstr(x + 1, column, i, curses.color_pair(1) | curses.A_STANDOUT)
-			screen.refresh()
-			curses.napms(animation)
-
-		screen.addstr(x + 1, 3, '|> Acerca De ', curses.color_pair(1) | curses.A_STANDOUT | flicker)
 
 	elif num == 1:
-		screen.addstr(x - 3, 3, 'Comenzar      ')
-		screen.addstr(x - 1, 3, 'Opciones      ')
-		screen.addstr(x + 1, 3, 'Acerca De     ')
-		screen.addstr(x + 3, 3, '              ')
+		screen.border()
+		line = x + 3
+		group()
 
-		column = 2
-		text = list('|> Salir')
-
-		for i in text:
-			column += 1
-			screen.addstr(x + 3, column, i, curses.color_pair(1) | curses.A_STANDOUT)
-			screen.refresh()
-			curses.napms(animation)
-
-		screen.addstr(x + 3, 3, '|> Salir ', curses.color_pair(1) | curses.A_STANDOUT | flicker)
+		screen.addstr(line, 3, '      ')
+		fonts.animation(screen, '|> Salir ', line, animation, flicker)
 
 def main_space():
-	x = curses.LINES // 2
-	y = curses.COLS // 2
-
-	space = ('- Presione ESPACIO -')
-	screen.addstr(x, curses.COLS // 2 - len(space) // 2, space, curses.A_BLINK)
+	fonts.flicker_center(screen, TEXT[1], x)
 
 	escape = False
 
@@ -299,7 +260,7 @@ def main_space():
 			error_main()
 
 def main(screen):
-	tittle_main()
+	fonts.tittle(screen, TEXT[2])
 	main_space()
 
 def main_exit(num):
@@ -315,20 +276,18 @@ def main_exit(num):
 	y = (curses.LINES - rows) // 2
 	x = (curses.COLS - cols) // 2
 
-
 	win = curses.newwin(rows, cols, y, x)
 
 	win.box()
 
 	win.move(2, 2)
-	win.addstr('Presione ENTER para confirmar...', curses.A_BOLD | curses.A_BLINK)
+	win.addstr(TEXT[3], curses.A_BOLD | curses.A_BLINK)
+
 	escape = False
 
 	while escape == False:
 		curses.echo()
 		key = win.getch(2, 2)
-		win.move(2, 2)
-		win.addstr('Presione ENTER para confirmar...', curses.A_BOLD | curses.A_BLINK)
 
 		if key == 10:
 			escape = True
@@ -336,7 +295,6 @@ def main_exit(num):
 		elif key == 27:
 			opt(num, 'exit')
 			escape = True
-	
 
 if __name__ == '__main__':
 	curses.wrapper(main)

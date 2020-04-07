@@ -1,5 +1,4 @@
-import curses
-import run
+import curses, run, opt1, fonts
 
 screen = curses.initscr()
 
@@ -9,16 +8,39 @@ curses.start_color()
 curses.curs_set(0)
 screen.keypad(1)
 
+#------------------------------------Base de Datos------------------------------------
 animation = True
 flicker = True
+color_bold = ('white')
+color_lyrics = ('black')
+cursor = 1
 
-OPTION = {
-	1: 'back',
-	2: 'cursor',
-	3: 'color',
-	4: 'speed',
-	5: 'flicker',
-	6: 'animation'
+CURSOR = {
+	1: '|> ',
+	2: ' > ',
+	3: '-> ',
+	4: '- ',
+	5: ''
+}
+
+COLOR_LYRICS = {
+	'white': curses.COLOR_WHITE,
+	'blue': curses.COLOR_BLUE,
+	'red': curses.COLOR_RED,
+	'black': curses.COLOR_BLACK,
+	'yellow': curses.COLOR_YELLOW,
+	'cyan': curses.COLOR_CYAN,
+	'green': curses.COLOR_GREEN,
+}
+
+COLOR_BOLD = {
+	'white': curses.COLOR_WHITE,
+	'blue': curses.COLOR_BLUE,
+	'red': curses.COLOR_RED,
+	'black': curses.COLOR_BLACK,
+	'yellow': curses.COLOR_YELLOW,
+	'cyan': curses.COLOR_CYAN,
+	'green': curses.COLOR_GREEN,
 }
 
 #----------Animacion SI/NO----------
@@ -37,12 +59,28 @@ elif flicker == False:
 	flicker = curses.A_STANDOUT
 #----------------------------------
 
+#-------------------Colores--------------------
+color_lyrics = COLOR_LYRICS[color_lyrics]
+color_bold = COLOR_BOLD[color_bold]
+cursor = CURSOR[cursor]
+
+curses.init_pair(1, color_bold, color_lyrics)
+#----------------------------------------------
+#-------------------------------------------------------------------------------------
+
+OPTION = {
+	1: 'back',
+	2: 'cursor',
+	3: 'color',
+	4: 'speed',
+	5: 'flicker',
+	6: 'animation'
+}
+
 x = curses.LINES // 2
 y = curses.COLS // 2
 
 def process(num):
-	z = curses.LINES // 2
-
 	screen.border()
 	screen.refresh()
 
@@ -65,8 +103,6 @@ def process(num):
 	while escape == False:
 		curses.echo()
 		key = win.getch(2, 2)
-		win.move(2, 2)
-		win.addstr('En proceso...', curses.A_BOLD)
 
 		if key == 10:
 			opt(num, option)
@@ -79,14 +115,10 @@ def process(num):
 		else:
 			pass
 
-def tittle_main():
-	tittle = ('~ O P C I O N E S ~')
-	screen.addstr(1, curses.COLS // 2 - len(tittle) // 2, tittle, curses.A_BOLD)
-
 def opt(num, opt):
 	screen.border()
 	escape = False
-	tittle_main()
+	fonts.tittle(screen, '~ O P C I O N E S ~')
 
 	up_down(num)
 
@@ -143,7 +175,11 @@ def opt(num, opt):
 				process(5)
 
 			elif option == ('animation'):
-				process(6)
+				escape = True
+				screen.erase()
+				screen.refresh()
+				curses.endwin()
+				opt1.main(screen)
 
 		elif key == curses.KEY_RESIZE:
 			screen.erase()
@@ -153,89 +189,52 @@ def opt(num, opt):
 			error_main()
 
 def group():
-	TEXT = {
-	1: screen.addstr(x - 5, 3, 'Animacion     '),
-	2: screen.addstr(x - 3, 3, 'Parpadeo      '),
-	3: screen.addstr(x - 1, 3, 'Vel. Texto      '),
-	4: screen.addstr(x + 1, 3, 'Colores      '),
-	5: screen.addstr(x + 3, 3, 'Cursor       '),
-	6: screen.addstr(x + 5, 3, 'Atras      ')
-	}
-
-	TEXT[1]
-	TEXT[2]
-	TEXT[3]
-	TEXT[4]
-	TEXT[5]
-	TEXT[6]
-
-def animation_main(text, line):
-	column = 2
-	text_animation = list(text)
-
-	for i in text_animation:
-		column += 1
-		screen.addstr(line, column, i, curses.A_STANDOUT)
-		screen.refresh()
-		curses.napms(animation)
-
-	screen.addstr(line, 3, str(text), curses.A_STANDOUT | flicker)
+	screen.addstr(x - 5, 3, 'Animacion     '),
+	screen.addstr(x - 3, 3, 'Parpadeo      '),
+	screen.addstr(x - 1, 3, 'Vel. Texto      '),
+	screen.addstr(x + 1, 3, 'Colores      '),
+	screen.addstr(x + 3, 3, 'Cursor       '),
+	screen.addstr(x + 5, 3, 'Atras      ')
 
 def up_down(num):
 	x = curses.LINES // 2
 	y = curses.COLS // 2
 
-	tittle_main()
+	fonts.tittle(screen, '~ O P C I O N E S ~')
+	screen.border()
+	group()
 
 	if num == 6:
-		screen.border()
-		group()
 		line = x - 5
-
 		screen.addstr(line, 3, '         ')
-		animation_main('|> Animacion ', line)
+		fonts.animation(screen, '|> Animacion ', line, animation, flicker)
 
 	elif num == 5:
-		screen.border()
-		group()
 		line = x - 3
-
 		screen.addstr(line, 3, '          ')
-		animation_main('|> Parpadeo ', line)
+		fonts.animation(screen, '|> Parpadeo ', line, animation, flicker)
 
 	elif num == 4:
-		screen.border()
-		group()
 		line = x - 1
-
 		screen.addstr(line, 3, '            ')
-		animation_main('|> Vel. Texto ', line)
+		fonts.animation(screen, '|> Vel. Texto ', line, animation, flicker)
 
 	elif num == 3:
-		screen.border()
-		group()
 		line = x + 1
-
 		screen.addstr(line, 3, '       ')
-		animation_main('|> Colores ', line)
+		fonts.animation(screen, '|> Colores ', line, animation, flicker)
 
 	elif num == 2:
-		screen.border()
-		group()
 		line = x + 3
-
 		screen.addstr(line, 3, '      ')
-		animation_main('|> Cursor ', line)
+		fonts.animation(screen, '|> Cursor ', line, animation, flicker)
 
 	elif num == 1:
-		screen.border()
-		group()
 		line = x + 5
-
 		screen.addstr(line, 3, '     ')
-		animation_main('|> Atras ', line)
+		fonts.animation(screen, '|> Atras ', line, animation, flicker)
 
 def main():
 	screen.border()
-	tittle_main()
+	fonts.tittle(screen, '~ O P C I O N E S ~')
 	opt(6, 'animation')
