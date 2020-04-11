@@ -113,7 +113,11 @@ def process(num):
 			escape = True
 
 		else:
-			pass
+			screen.erase()
+			screen.refresh()
+			escape = True
+			curses.endwin()
+			fonts.error()
 
 def opt(num, opt):
 	screen.border()
@@ -186,7 +190,7 @@ def opt(num, opt):
 			screen.refresh()
 			escape = True
 			curses.endwin()
-			error_main()
+			fonts.error()
 
 def group():
 	screen.addstr(x - 5, 3, 'Animacion     '),

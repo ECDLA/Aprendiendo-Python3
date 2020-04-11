@@ -117,21 +117,6 @@ def process(num):
 			opt(num, option)
 			escape = True
 
-def error_main():
-	screen.addstr("¡ERROR!\n", curses.COLOR_RED | curses.A_BOLD | curses.A_BLINK)
-	escape = False
-
-	while escape == False:
-
-		x = screen.getch()
-
-		if x == 10:
-			escape = True
-			curses.endwin()
-
-		elif x == curses.KEY_RESIZE:
-			screen.addstr("¡ERROR!\n", curses.color_pair(1) | curses.A_BOLD | curses.A_BLINK)
-
 def opt(num, opt):
 	screen.border()
 	escape = False
@@ -193,7 +178,7 @@ def opt(num, opt):
 			screen.refresh()
 			escape = True
 			curses.endwin()
-			error_main()
+			fonts.error()
 
 def group():
 	screen.addstr(x - 3, 3, 'Comenzar      '),
@@ -292,7 +277,7 @@ def main_exit(num):
 		if key == 10:
 			escape = True
 
-		elif key == 27:
+		elif key == 113:
 			opt(num, 'exit')
 			escape = True
 

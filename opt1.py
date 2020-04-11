@@ -37,7 +37,7 @@ COLOR_BOLD = {
 
 #----------Animacion SI/NO----------
 if animation == True:
-	animation = 12
+	animation = 25
 
 elif animation == False:
 	animation = 0
@@ -137,9 +137,9 @@ def opt(num, opt):
 			right_left(num)
 			escape = False
 
-		elif key == 27:
-			escape = True
+		elif key == 113:
 			main_exit(screen)
+			escape = True
 
 		elif key in [curses.KEY_ENTER, ord('\n'), 10]:
 			escape = True
@@ -150,13 +150,19 @@ def opt(num, opt):
 			elif option == False:
 				animation = False
 
+		elif key == curses.KEY_RESIZE:
+			screen.erase()
+			screen.refresh()
+			escape = True
+			curses.endwin()
+			fonts.error()
+
 def options_inactive(screen):
-	screen.addstr(x - 5, 3, 'Animacion     ', curses.color_pair(3) | curses.A_BOLD)
-	screen.addstr(x - 3, 3, 'Parpadeo      ', curses.color_pair(2))
-	screen.addstr(x - 1, 3, 'Vel. Texto      ', curses.color_pair(2))
-	screen.addstr(x + 1, 3, 'Colores      ', curses.color_pair(2))
-	screen.addstr(x + 3, 3, 'Cursor       ', curses.color_pair(2))
-	screen.addstr(x + 5, 3, 'Atras      ', curses.color_pair(2))
+	screen.addstr(x - 3, 3, '              ', curses.color_pair(2))
+	screen.addstr(x - 1, 3, '                ', curses.color_pair(2))
+	screen.addstr(x + 1, 3, '             ', curses.color_pair(2))
+	screen.addstr(x + 3, 3, '             ', curses.color_pair(2))
+	screen.addstr(x + 5, 3, '           ', curses.color_pair(2))
 
 def main(screen):
 	screen.border()
@@ -168,14 +174,16 @@ def main(screen):
 
 	while escape == False:
 		x2 += 1
-		screen.addstr(x2 - 2, 3, '              ')
-		screen.addstr(x2 - 1, 3, 'Animacion', curses.color_pair(3) | curses.A_BOLD)
+		screen.addstr(x2 - 3, 3, '              ')
+		screen.addstr(x2 - 2, 3, 'Animacion', curses.color_pair(3))
+		screen.addstr(x2 - 1, 3, 'Animacion', curses.color_pair(3))
 		screen.addstr(x2, 3, 'Animacion', curses.color_pair(3) | curses.A_BOLD)
 		screen.refresh()
-		curses.napms(20)
+		curses.napms(animation)
 
 		if x2 == x:
 			escape = True
+			screen.addstr(x2 - 2, 3, '         ')
 			screen.addstr(x2 - 1, 3, '         ')
 			screen.refresh()
 
@@ -194,19 +202,23 @@ def main_exit(screen):
 
 	while escape == False:
 		x2 -= 1
-		screen.addstr(x2 + 2, 3, '              ')
-		screen.addstr(x2 + 1, 3, 'Animacion', curses.color_pair(3) | curses.A_BOLD)
+		screen.addstr(x2 + 3, 3, '              ')
+		screen.addstr(x2 + 2, 3, 'Animacion', curses.color_pair(3))
+		screen.addstr(x2 + 1, 3, 'Animacion', curses.color_pair(3))
 		screen.addstr(x2, 3, 'Animacion', curses.color_pair(3) | curses.A_BOLD)
 		screen.refresh()
-		curses.napms(20)
+		curses.napms(animation)
 
 		if x2 == x - 5:
 			escape = True
+			screen.addstr(x2 + 2, 3, '         ')
 			screen.addstr(x2 + 1, 3, '         ')
+			screen.addstr(x2, 3, '         ')
 			screen.refresh()
 		else:
 			escape = False
 
 	screen.erase()
 	screen.refresh()
+	curses.endwin()
 	options.main()
