@@ -20,7 +20,30 @@ banner = """
 |-papel
 |-tijera
 """
- 
+
+def ascii():
+    if option_random == 'piedra':
+        print("    _______")
+        print("---'   ____)")
+        print("      (_____)")
+        print("      (_____)")
+        print("      (____)")
+        print("---.__(___)")
+
+    elif option_random == 'papel':
+        print("    _______")
+        print("---'   ____)____")
+        print("          ______)")
+        print("          _______)")
+        print("         _______)")
+        print("---.__________)")        
+    else:
+        print("    _______")
+        print("---'   ____)____")
+        print("          ______)")
+        print("       __________)")
+        print("      (____)")
+        print("---.__(___)")
 
 while True:
     clean_screen()
@@ -34,29 +57,6 @@ while True:
         continue
 
     option_random = random.choice(['piedra', 'papel', 'tijera'])
-
-    def ascii():
-        if option_random == 'piedra':
-            print("    _______")
-            print("---'   ____)")
-            print("      (_____)")
-            print("      (_____)")
-            print("      (____)")
-            print("---.__(___)")
-        if option_random == 'papel':
-            print("    _______")
-            print("---'   ____)____")
-            print("          ______)")
-            print("          _______)")
-            print("         _______)")
-            print("---.__________)")        
-        if option_random == 'tijera':
-            print("    _______")
-            print("---'   ____)____")
-            print("          ______)")
-            print("       __________)")
-            print("      (____)")
-            print("---.__(___)")
     
     if option_random == option_user:
         print(f'\n> { option_random } vs { option_user } | EMPATE')
