@@ -1,12 +1,7 @@
 from base import DatabaseManagementSystem
+from settings import *
 import hashlib
 import sqlite3
-
-# Constants
-
-HASH_ALGORITHM = 'md5'
-USER_DEFAULT_COLOR = 'white'
-USER_DEFAULT_TEXT_SPEED = 5.0
 
 class UserNotExists(Exception):
     pass
@@ -24,7 +19,7 @@ class User():
 
     @classmethod
     def generate_password_hash(cls, password: str):
-        return hashlib.new(HASH_ALGORITHM, password.encode('utf-8')).hexdigest()
+        return hashlib.new(PASSWORD_HASH_ALGORITHM, password.encode('utf-8')).hexdigest()
 
     @classmethod
     def get_all_users(cls):
@@ -52,7 +47,7 @@ class User():
                 query = 'INSERT INTO users_configuration VALUES(?, ?, ? ,?)'
 
                 DatabaseManagementSystem.run_query(
-                    query, (None, USER_DEFAULT_COLOR, USER_DEFAULT_TEXT_SPEED, self.id)
+                    query, (None, int(USER_DEFAULT_ANIMATION), int(USER_DEFAULT_FLICKER), self.id)
                 )
 
                 return True
@@ -87,23 +82,26 @@ class User():
         else:
             return True
 
-    def set_user_configuration(self, color: str, text_speed: float):
+    def set_user_configuration(self, animation: bool, flicker: bool):
         if self.authenticate_user():
-            # Update user settings
-            query = 'UPDATE users_configuration SET color = ?, text_speed = ? WHERE user_id = ?'
-            DatabaseManagementSystem.run_query(query, (color, text_speed, self.id))
+            if not (isinstance(animation, bool) and isinstance(flicker, bool)):
+                raise Exception('Invalid values, must be boolean values.')
 
-            return {'color': color, 'text_speed': text_speed}
+            # Update user settings
+            query = 'UPDATE users_configuration SET animation = ?, flicker = ? WHERE user_id = ?'
+            DatabaseManagementSystem.run_query(query, (int(animation), int(flicker), self.id))
+
+            return {'animation': animation, 'flicker': flicker}
 
         else:
             raise UserNotExists(f'User "{ self.username }" does not exist.')
  
     def get_user_configuration(self):
         if self.authenticate_user():
-            query = 'SELECT color, text_speed FROM users_configuration WHERE user_id = ?'
+            query = 'SELECT animation, flicker FROM users_configuration WHERE user_id = ?'
             result = DatabaseManagementSystem.run_query(query, (self.id,)).fetchall()[0]
 
-            return {'color': result[0], 'text_speed': result[1]}
+            return {'animation': bool(result[0]), 'flicker': bool(result[1]) }
 
         else:
             raise UserNotExists(f'User "{ self.username }" does not exist.')

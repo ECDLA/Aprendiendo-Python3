@@ -23,8 +23,8 @@ class DatabaseManagementSystem():
             query = """
                 CREATE TABLE users_configuration(
                     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-                    "color" VARCHAR(15),
-                    "text_speed" REAL,
+                    "animation" INTEGER,
+                    "flicker" INTEGER,
                     "user_id" INTEGER NOT NULL UNIQUE REFERENCES users("id")
                 )
             """
