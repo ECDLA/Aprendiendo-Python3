@@ -11,13 +11,19 @@ screen.keypad(1)
 
 
 #------------------------------------Base de Datos------------------------------------
-animation = True
-flicker = True
-color_bold = ('white')
-color_lyrics = ('black')
-cursor = 1
+#-----------------Configuración-----------------
+animation = True #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Animación activada SI/NO
+flicker = True #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Parpadeo activado SI/NO
 
-CURSOR = {
+color_bold = ('white') #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Color de fondo.
+color_lyrics = ('black') #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Color de letra.
+
+cursor = 1
+#-----------------------------------------------<<<
+
+##-------------------Opcional-------------------
+
+CURSOR = { #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Tipo decursores.
 	1: '|> ',
 	2: ' > ',
 	3: '-> ',
@@ -25,7 +31,7 @@ CURSOR = {
 	5: ''
 }
 
-COLOR_LYRICS = {
+COLOR_LYRICS = { #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Paleta para Letra.
 	'white': curses.COLOR_WHITE,
 	'blue': curses.COLOR_BLUE,
 	'red': curses.COLOR_RED,
@@ -35,7 +41,7 @@ COLOR_LYRICS = {
 	'green': curses.COLOR_GREEN,
 }
 
-COLOR_BOLD = {
+COLOR_BOLD = { #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Paleta para fondo.
 	'white': curses.COLOR_WHITE,
 	'blue': curses.COLOR_BLUE,
 	'red': curses.COLOR_RED,
@@ -44,14 +50,16 @@ COLOR_BOLD = {
 	'cyan': curses.COLOR_CYAN,
 	'green': curses.COLOR_GREEN,
 }
+
+#-----------------------------------------------<<<
 
 #----------------Animacion SI/NO----------------
-if animation == True:
+if animation == True: #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Animación por defecto 12ms
 	animation = 12
 
 elif animation == False:
 	animation = 0
-#-----------------------------------------------
+#-----------------------------------------------<<<
 
 #----------------Parpadeo SI/NO-----------------
 if flicker == True:
@@ -59,17 +67,17 @@ if flicker == True:
 
 elif flicker == False:
 	flicker = curses.A_STANDOUT
-#----------------------------------------------
+#----------------------------------------------<<<
 
 #-------------------Colores--------------------
-color_lyrics = COLOR_LYRICS[color_lyrics]
+color_lyrics = COLOR_LYRICS[color_lyrics] #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . Almacena los colores.
 color_bold = COLOR_BOLD[color_bold]
 cursor = CURSOR[cursor]
 
 curses.init_pair(1, color_bold, color_lyrics)
 curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_RED)
-#----------------------------------------------
-#-------------------------------------------------------------------------------------
+#----------------------------------------------<<<
+#-------------------------------------------------------------------------------------<<<
 
 TEXT = {
 	1: str('- Presione ESPACIO -'),
@@ -78,10 +86,10 @@ TEXT = {
 }
 
 OPTION = {
-	5: 'game',
-	4: 'normal',
-	3: 'Hacking',
-	2: 'web',
+	5: 'normal',
+	4: 'Hacking',
+	3: 'web',
+	2: 'game',
 	1: 'exit'
 }
 
@@ -159,20 +167,23 @@ def opt(num, opt):
 			escape = True
 			curses.endwin()
 
-			if option == ('exit'):
-				main_exit(num)
-
-			elif opt == ('game'):
-				process(5)
+			if option == ('normal'):
+				nv0.main()
 
 			elif option == ('Hacking'):
-				process(3)
+				process(4)
 
 			elif option == ('web'):
-				process(2)
+				process(3)
 
-			elif option == ('normal'):
-				nv0.main()
+			elif opt == ('game'):
+				main_exit(num)
+
+			elif option == ('exit'):
+				main_exit(num)
+
+			else:
+				process(2)
 
 		elif key == curses.KEY_RESIZE:
 			screen.erase()

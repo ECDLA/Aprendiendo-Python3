@@ -1,13 +1,19 @@
 import curses, fonts, options
 
 #------------------------------------Base de Datos------------------------------------
-animation = True
-flicker = True
-color_bold = ('white')
-color_lyrics = ('black')
-cursor = 1
+#-----------------Configuración-----------------
+animation = True #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Animación activada SI/NO
+flicker = True #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Parpadeo activado SI/NO
 
-CURSOR = {
+color_bold = ('white') #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Color de fondo.
+color_lyrics = ('black') #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Color de letra.
+
+cursor = 1
+#-----------------------------------------------<<<
+
+##-------------------Opcional-------------------
+
+CURSOR = { #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Tipo decursores.
 	1: '|> ',
 	2: ' > ',
 	3: '-> ',
@@ -15,7 +21,7 @@ CURSOR = {
 	5: ''
 }
 
-COLOR_LYRICS = {
+COLOR_LYRICS = { #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Paleta para Letra.
 	'white': curses.COLOR_WHITE,
 	'blue': curses.COLOR_BLUE,
 	'red': curses.COLOR_RED,
@@ -25,7 +31,7 @@ COLOR_LYRICS = {
 	'green': curses.COLOR_GREEN,
 }
 
-COLOR_BOLD = {
+COLOR_BOLD = { #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Paleta para fondo.
 	'white': curses.COLOR_WHITE,
 	'blue': curses.COLOR_BLUE,
 	'red': curses.COLOR_RED,
@@ -35,30 +41,32 @@ COLOR_BOLD = {
 	'green': curses.COLOR_GREEN,
 }
 
-#----------Animacion SI/NO----------
-if animation == True:
+#-----------------------------------------------<<<
+
+#----------------Animacion SI/NO----------------
+if animation == True: #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Animación por defecto 12ms
 	animation = 25
 
 elif animation == False:
 	animation = 0
-#-----------------------------------
+#-----------------------------------------------<<<
 
-#----------Parpadeo SI/NO-----------
+#----------------Parpadeo SI/NO-----------------
 if flicker == True:
 	flicker = curses.A_BLINK
 
 elif flicker == False:
 	flicker = curses.A_STANDOUT
-#----------------------------------
+#----------------------------------------------<<<
 
 #-------------------Colores--------------------
-color_lyrics = COLOR_LYRICS[color_lyrics]
+color_lyrics = COLOR_LYRICS[color_lyrics] #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . Almacena los colores.
 color_bold = COLOR_BOLD[color_bold]
 cursor = CURSOR[cursor]
 
 curses.init_pair(1, color_bold, color_lyrics)
-#----------------------------------------------
-#-------------------------------------------------------------------------------------
+#----------------------------------------------<<<
+#-------------------------------------------------------------------------------------<<<
 
 x = curses.LINES // 2
 y = curses.COLS // 2
@@ -140,6 +148,7 @@ def opt(num, opt):
 				#------BASE DE DATOS------
 				animation = True
 				#-------------------------
+				
 				main_exit(screen)
 				escape = True
 
@@ -147,6 +156,7 @@ def opt(num, opt):
 				#------BASE DE DATOS------
 				animation = False
 				#-------------------------
+
 				main_exit(screen)
 				escape = True
 
