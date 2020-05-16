@@ -131,7 +131,7 @@ USER_DEFAULT_FLICKER = True
 ...
 ```
 
-> **Informacion:** 
+> **IMPORTANTE:** 
 >
 > El archivo `settings.py`, es la configuracion del modulo **db**, en general. 
 >
