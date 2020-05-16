@@ -117,36 +117,43 @@ else:
 
 **Configuraciones de usuario:**
 
-Cada usuario por defecto tiene una configuracion de terminal predeterminada.
+Cada usuario por defecto tiene una configuracion de terminal predeterminada:
 
-- Color predeterminado de la terminal (`color`), que debe ser de tipo texto.
-- Velocidad de texto predeterminada de la terminal (`text_speed`), que debe ser de tipo decimal o float.
+- `animation` (valor boleano)
+- `flicker` (valor boleano)
 
-Para cambiar los valores por defecto del color y la velocidad de texo de la terminal, hay que situarnos en el archivo `users.py`, y modificar las constantes `USER_DEFAULT_COLOR` y `USER_DEFAULT_TEXT_SPEED`, de la siguiente manera:
+Para cambiar los valores por defecto o la configuracion predeterminada de **todos** los usuarios hay que situarnos en el archivo `settings.py`, y modificar las constantes `USER_DEFAULT_COLOR` y `USER_DEFAULT_TEXT_SPEED`, de la siguiente manera:
 
 ```python
 ...
-USER_DEFAULT_COLOR = 'color que quiera'
-USER_DEFAULT_TEXT_SPEED = 55555.0777
+USER_DEFAULT_ANIMATION = True
+USER_DEFAULT_FLICKER = True
 ...
 ```
+
+> **Informacion:** 
+> El archivo `settings.py`, es la configuracion del modulo **db**, en general. 
+>
+> Se creo dicho archivo para poder configurar de manera mas sencilla el modulo, evitando asi ver todo el codigo o el funcionamiento por detras de dicho modulo.
+
+---------------
 
 Para obtener la configuracion de un usuario en especifico, hay que utilisar el **metodo de instancia** `get_user_configuration()`, que retornara en un diccionario la configuracion de dicho usuario (si no existe el usuario ocurrira una excepcion o error), de la siguiente manera:
 
 ```python
 >>> user = User('Juan', 'juan123')
 >>> user.get_user_configuration()
-{'color': 'red', 'text_speed': 5.0}
+{'animation': True, 'flicker': False}
 ```
 
-Para actualisar la configuracion de un usuario, hay que utilisar el **metodo de instancia** `set_user_configuration()`, que recibe como argumentos, los nuevos valores de `color` y `text_speed`, y dicho metodo retornara la nueva configuracion (si no existe el usuario ocurrira una excepcion o error), de la siguiente manera:
+Para actualisar la configuracion de un usuario, hay que utilisar el **metodo de instancia** `set_user_configuration()`, que recibe como argumentos, los nuevos valores de `animation` y `flicker`, y dicho metodo retornara la nueva configuracion (si no existe el usuario ocurrira una excepcion o error), de la siguiente manera:
 
 ```python
 >>> user = User('Juan', 'juan123')
 >>> user.get_user_configuration()
-{'color': 'red', 'text_speed': 5.0}
->>> user.set_user_configuration('cyan', 8.0)
-{'color': 'cyan', 'text_speed': 8.0}
+{'animation': True, 'flicker': False}
+>>> user.set_user_configuration(False, True)
+{'animation': False, 'flicker': True}
 ```
 
 **Utilidades de la clase User:**
