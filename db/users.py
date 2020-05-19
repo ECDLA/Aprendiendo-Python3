@@ -1,5 +1,5 @@
-from base import DatabaseManagementSystem
-from settings import *
+from .base import DatabaseManagementSystem
+from .settings import *
 import hashlib
 import sqlite3
 
