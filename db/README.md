@@ -137,25 +137,35 @@ USER_DEFAULT_FLICKER = True
 >
 > Se creo dicho archivo para poder configurar de manera mas sencilla el modulo, evitando asi ver todo el codigo o el funcionamiento por detras de dicho modulo.
 
----------------
+**¿Como accedemos a la configuracion del usuario?**
 
-Para obtener la configuracion de un usuario en especifico, hay que utilisar el **metodo de instancia** `get_user_configuration()`, que retornara en un diccionario la configuracion de dicho usuario (si no existe el usuario ocurrira una excepcion o error), de la siguiente manera:
+Para acceder a la configuracion del usuario, seria mendiante los siguientes atributos de la instancia:
 
-```python
->>> user = User('Juan', 'juan123')
->>> user.get_user_configuration()
-{'animation': True, 'flicker': False}
-```
+- `animation_config` -> configuracion de la animacion del usuario
+- `flicker_config` -> configuracion del parpadeo del usuario
 
-Para actualisar la configuracion de un usuario, hay que utilisar el **metodo de instancia** `set_user_configuration()`, que recibe como argumentos, los nuevos valores de `animation` y `flicker`, y dicho metodo retornara la nueva configuracion (si no existe el usuario ocurrira una excepcion o error), de la siguiente manera:
+Un ejemplo:
 
 ```python
 >>> user = User('Juan', 'juan123')
->>> user.get_user_configuration()
-{'animation': True, 'flicker': False}
->>> user.set_user_configuration(False, True)
-{'animation': False, 'flicker': True}
+>>> user.animation_config
+True
+>>> user.flicker_config
+False
 ```
+
+Para actualisar la configuracion de un usuario, hay que simplemente modificar los atributos mencionados, de la siguiente manera:
+
+```python
+>>> user = User('Juan', 'juan123')
+>>> user.animation_config
+True
+>>> user.animation_config = False
+>>> user.animation_config
+False
+```
+
+Son atributos normales y corrientes, asi de simple...
 
 **Utilidades de la clase User:**
 
@@ -169,17 +179,7 @@ La clase `User` tiene dos **metodos de clase**, que son utilidades o se denomina
     ```python
     >>> User.generate_password_hash('contraseña')
     '4c882dcb24bcb1bc225391a602feca7c'
-    ``` 
-
-- Metodo `get_all_users()`:
-    - Devuelve todos los usuarios registrados en la base de datos.
-
-    - Ejmplo de como usarlo:
-
-    ```python
-    >>> User.get_all_users()
-    [(1, 'nombre_de_usuario', 'contraseña'), (2, 'nombre_de_usuario2', 'contraseña2')]
-        ```
+    ```
 
 ----------------------
 
