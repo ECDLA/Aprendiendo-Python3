@@ -1,7 +1,7 @@
 import sqlite3
 import os.path
 
-DATABASE_NAME = 'db.sqlite3'
+DATABASE_NAME = os.path.join(os.path.dirname(__file__), 'db.sqlite3')
 
 class DatabaseManagementSystem():
 

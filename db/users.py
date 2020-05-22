@@ -3,27 +3,75 @@ from .settings import *
 import hashlib
 import sqlite3
 
-class UserNotExists(Exception):
-    pass
+# Decorator beta version ->
+def user_authentication_required(func):
+
+    def wrapper(obj, user_obj, *args, **kwargs):
+        if not user_obj.is_authenticated:
+            if not user_obj.authenticate_user():
+                raise Exception('Authentication failed')
+
+        return func(obj, user_obj, *args, **kwargs)
+
+    return wrapper
+
+
+class ColumnManagement():
+
+    def __init__(self, column_name): self.column_name = column_name
+
+    @user_authentication_required
+    def __get__(self, obj, type):
+        return bool(
+            DatabaseManagementSystem.run_query(
+                f'SELECT {self.column_name} FROM users_configuration WHERE user_id = ?', 
+                [obj.id]
+
+            ).fetchone()[0]
+        )
+
+    @user_authentication_required
+    def __set__(self, obj, value):
+        if isinstance(value, bool):
+            DatabaseManagementSystem.run_query(
+                f'UPDATE users_configuration SET {self.column_name} = ? WHERE user_id = ?', 
+                [int(value), obj.id]
+            )
+        else:
+            raise Exception('Must be a boolean value')
+
+    def __delete__(self, obj): 
+        pass
 
 class User():
+
+    animation_config = ColumnManagement('animation')
+    flicker_config = ColumnManagement('flicker')
+
+    ATTRS_REQUIRING_AUTHENTICATION = (
+        'animation_config',
+        'flicker_config',
+    )
 
     def __init__(self, username: str, password: str):
         self.id = None
         self.username = username
-        self.__password = password
+        self._password = password
         self.is_authenticated = False
 
     def __str__(self):
         return self.username
 
+    # def __getattribute__(self, name):
+    #     if name in super().__getattribute__('ATTRS_REQUIRING_AUTHENTICATION'):
+    #         if not super().__getattribute__('authenticate_user')():
+    #             raise Exception('')
+
+    #     return super().__getattribute__(name)
+
     @classmethod
     def generate_password_hash(cls, password: str):
         return hashlib.new(PASSWORD_HASH_ALGORITHM, password.encode('utf-8')).hexdigest()
-
-    @classmethod
-    def get_all_users(cls):
-        return DatabaseManagementSystem.run_query('SELECT * FROM users').fetchall()
 
     def create_user(self):
         """ Returns True if the user was created successfully, and False if it is the opposite. """
@@ -32,7 +80,7 @@ class User():
             try:
                 query = 'INSERT INTO users VALUES(?, ?, ?)'
 
-                password_hash = self.generate_password_hash(self.__password)
+                password_hash = self.generate_password_hash(self._password)
                 DatabaseManagementSystem.run_query(query, (None, self.username, password_hash))
 
                 query = 'SELECT id FROM users WHERE username = ?'
@@ -40,7 +88,7 @@ class User():
 
                 # Set attributes
                 self.id = result[0][0]
-                self.__password = password_hash
+                self._password = password_hash
                 self.is_authenticated = True
 
                 # Create user settigs
@@ -63,7 +111,7 @@ class User():
         if not self.is_authenticated:
             query = 'SELECT id FROM users WHERE username = ? AND password = ?'
 
-            password_hash = self.generate_password_hash(self.__password)
+            password_hash = self.generate_password_hash(self._password)
             result = DatabaseManagementSystem.run_query(
                 query, (self.username, password_hash)
                 
@@ -72,7 +120,7 @@ class User():
             if result:
                 # Set attributes
                 self.id = result[0][0]
-                self.__password = password_hash
+                self._password = password_hash
                 self.is_authenticated = True
 
                 return True
@@ -82,29 +130,5 @@ class User():
         else:
             return True
 
-    def set_user_configuration(self, animation: bool, flicker: bool):
-        if self.authenticate_user():
-            if not (isinstance(animation, bool) and isinstance(flicker, bool)):
-                raise Exception('Invalid values, must be boolean values.')
-
-            # Update user settings
-            query = 'UPDATE users_configuration SET animation = ?, flicker = ? WHERE user_id = ?'
-            DatabaseManagementSystem.run_query(query, (int(animation), int(flicker), self.id))
-
-            return {'animation': animation, 'flicker': flicker}
-
-        else:
-            raise UserNotExists(f'User "{ self.username }" does not exist.')
- 
-    def get_user_configuration(self):
-        if self.authenticate_user():
-            query = 'SELECT animation, flicker FROM users_configuration WHERE user_id = ?'
-            result = DatabaseManagementSystem.run_query(query, (self.id,)).fetchall()[0]
-
-            return {'animation': bool(result[0]), 'flicker': bool(result[1]) }
-
-        else:
-            raise UserNotExists(f'User "{ self.username }" does not exist.')
-    
 if __name__ == '__main__':
     pass
