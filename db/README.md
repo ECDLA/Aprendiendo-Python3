@@ -175,6 +175,8 @@ Son atributos normales y corrientes, asi de simple...
 >
 > Dicha implementacion se logro mediante **descriptores de datos**, cada ves que se accede o modifica un atributo, se estan haciendo consultas SQL a la base de datos. Entonces, no abusen y accedan como locos a los atributos pues estan haciendo consultas SQL a lo loco, y puede afectar el redimiento de la aplicasion. Cabe recalcar que dudo que pase esto pero si el cliente tiene una maquina lenta puede afectar.
 
+------------
+
 **Utilidades de la clase User:**
 
 La clase `User` tiene dos **metodos de clase**, que son utilidades o se denominan asi, pues fueron creadas para eso, para ser utiles:
