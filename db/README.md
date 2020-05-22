@@ -137,6 +137,8 @@ USER_DEFAULT_FLICKER = True
 >
 > Se creo dicho archivo para poder configurar de manera mas sencilla el modulo, evitando asi ver todo el codigo o el funcionamiento por detras de dicho modulo.
 
+-------------
+
 **¿Como accedemos a la configuracion del usuario?**
 
 Para acceder a la configuracion del usuario, seria mendiante los siguientes atributos de la instancia:
@@ -166,6 +168,8 @@ False
 ```
 
 Son atributos normales y corrientes, asi de simple...
+
+----------
 
 > **ADVERTENCIA:**
 >
