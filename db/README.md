@@ -177,7 +177,7 @@ En cuanto al `flicker` es diferente:
 ```python
 >>> user = User('Juan', 'juan123')
 >>> import curses
->>> user.flicker_config == curses.A_BLINK
+>>> user.flicker_config == curses.A_BLINK`
 True
 >>> user.flicker_config = 'A_STANDOUT'
 >>> user.flicker_config == curses.A_STANDOUT
@@ -185,8 +185,10 @@ True
 >>> user.flicker_config
 65536
 ```
+El atributo `flicker_config`, funciona diferente, el valor de este, es la constante de la libreria `curses` indicada. 
+Para indicar que constante sera el valor de dicho atributo, se indica modificando el atributo con el nombre de la constante en `str`, las constantes permitidas son `A_STANDOUT` y `A_BLINK`.
 
-Son atributos normales y corrientes, asi de simple...
+De ahi, son atributos normales y corrientes, asi de simple...
 
 ----------
 
