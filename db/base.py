@@ -1,7 +1,6 @@
+from .settings import DATABASE_NAME
 import sqlite3
 import os.path
-
-DATABASE_NAME = os.path.join(os.path.dirname(__file__), 'db.sqlite3')
 
 class DatabaseManagementSystem():
 
@@ -13,8 +12,8 @@ class DatabaseManagementSystem():
             query = """
                 CREATE TABLE users(
                     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-                    "username" VARCHAR(50) UNIQUE,
-                    "password" VARCHAR(100)
+                    "username" TEXT UNIQUE,
+                    "password" TEXT
                 )
             """
 
@@ -24,7 +23,7 @@ class DatabaseManagementSystem():
                 CREATE TABLE users_configuration(
                     "id" INTEGER PRIMARY KEY AUTOINCREMENT,
                     "animation" INTEGER,
-                    "flicker" INTEGER,
+                    "flicker" TEXT,
                     "user_id" INTEGER NOT NULL UNIQUE REFERENCES users("id")
                 )
             """
@@ -42,7 +41,3 @@ class DatabaseManagementSystem():
             connection.commit()
 
         return result
-
-if __name__ == "__main__":
-    # Inicialisamos la db y las tablas
-    DatabaseManagementSystem.initilize_tables()

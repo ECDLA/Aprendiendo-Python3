@@ -1,7 +1,7 @@
 from .base import DatabaseManagementSystem
 from .settings import *
 import hashlib
-import sqlite3
+import curses
 
 # Decorator beta version ->
 def user_authentication_required(func):
@@ -15,43 +15,53 @@ def user_authentication_required(func):
 
     return wrapper
 
-
-class ColumnManagement():
-
-    def __init__(self, column_name): self.column_name = column_name
+class UserConfigurationTableManagement:
+    column_name = None
 
     @user_authentication_required
     def __get__(self, obj, type):
-        return bool(
-            DatabaseManagementSystem.run_query(
-                f'SELECT {self.column_name} FROM users_configuration WHERE user_id = ?', 
-                [obj.id]
+        return DatabaseManagementSystem.run_query(
+            f'SELECT {self.column_name} FROM users_configuration WHERE user_id = ?', 
+            [obj.id]
 
-            ).fetchone()[0]
-        )
+        ).fetchone()[0]
 
     @user_authentication_required
     def __set__(self, obj, value):
-        if isinstance(value, bool):
-            DatabaseManagementSystem.run_query(
-                f'UPDATE users_configuration SET {self.column_name} = ? WHERE user_id = ?', 
-                [int(value), obj.id]
-            )
-        else:
-            raise Exception('Must be a boolean value')
+        DatabaseManagementSystem.run_query(
+            f'UPDATE users_configuration SET {self.column_name} = ? WHERE user_id = ?', 
+            [value, obj.id]
+        )
 
-    def __delete__(self, obj): 
-        pass
+    def __delete__(self, obj): pass
 
-class User():
+class AnimationColumnManagement(UserConfigurationTableManagement):
+    column_name = 'animation'
+    VALID_VALUES = (0, 12)
 
-    animation_config = ColumnManagement('animation')
-    flicker_config = ColumnManagement('flicker')
+    def __set__(self, obj, value):
+        if value not in self.VALID_VALUES or isinstance(value, bool):
+            raise Exception('Invalid value.')
 
-    ATTRS_REQUIRING_AUTHENTICATION = (
-        'animation_config',
-        'flicker_config',
-    )
+        super().__set__(obj, value)
+
+class FlickerColumnManagement(UserConfigurationTableManagement):
+    column_name = 'flicker'
+    VALID_VALUES = ['A_BLINK', 'A_STANDOUT']
+
+    def __get__(self, obj, type):
+        return getattr(curses, super().__get__(obj, type))
+
+    def __set__(self, obj, value):
+        if value not in self.VALID_VALUES:
+            raise Exception('Invalid value.')
+
+        super().__set__(obj, value)
+
+class User:
+
+    animation_config = AnimationColumnManagement()
+    flicker_config = FlickerColumnManagement()
 
     def __init__(self, username: str, password: str):
         self.id = None
@@ -62,13 +72,6 @@ class User():
     def __str__(self):
         return self.username
 
-    # def __getattribute__(self, name):
-    #     if name in super().__getattribute__('ATTRS_REQUIRING_AUTHENTICATION'):
-    #         if not super().__getattribute__('authenticate_user')():
-    #             raise Exception('')
-
-    #     return super().__getattribute__(name)
-
     @classmethod
     def generate_password_hash(cls, password: str):
         return hashlib.new(PASSWORD_HASH_ALGORITHM, password.encode('utf-8')).hexdigest()
@@ -78,13 +81,16 @@ class User():
         
         if not self.is_authenticated:
             try:
-                query = 'INSERT INTO users VALUES(?, ?, ?)'
-
                 password_hash = self.generate_password_hash(self._password)
-                DatabaseManagementSystem.run_query(query, (None, self.username, password_hash))
 
-                query = 'SELECT id FROM users WHERE username = ?'
-                result = DatabaseManagementSystem.run_query(query, (self.username,)).fetchall()
+                DatabaseManagementSystem.run_query(
+                    'INSERT INTO users VALUES(?, ?, ?)',  (None, self.username, password_hash)
+                )
+
+                result = DatabaseManagementSystem.run_query(
+                    'SELECT id FROM users WHERE username = ?', (self.username,)
+
+                ).fetchall()
 
                 # Set attributes
                 self.id = result[0][0]
@@ -92,10 +98,9 @@ class User():
                 self.is_authenticated = True
 
                 # Create user settigs
-                query = 'INSERT INTO users_configuration VALUES(?, ?, ? ,?)'
-
                 DatabaseManagementSystem.run_query(
-                    query, (None, int(USER_DEFAULT_ANIMATION), int(USER_DEFAULT_FLICKER), self.id)
+                    'INSERT INTO users_configuration VALUES(?, ?, ? ,?)', 
+                    (None, USER_DEFAULT_ANIMATION, USER_DEFAULT_FLICKER, self.id)
                 )
 
                 return True
@@ -109,11 +114,11 @@ class User():
         """ Returns True if the user authenticated successfully, and False if the opposite """
 
         if not self.is_authenticated:
-            query = 'SELECT id FROM users WHERE username = ? AND password = ?'
-
             password_hash = self.generate_password_hash(self._password)
+
             result = DatabaseManagementSystem.run_query(
-                query, (self.username, password_hash)
+                'SELECT id FROM users WHERE username = ? AND password = ?', 
+                (self.username, password_hash)
                 
             ).fetchall()
 
