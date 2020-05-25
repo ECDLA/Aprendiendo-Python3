@@ -119,15 +119,18 @@ else:
 
 Cada usuario por defecto tiene una configuracion de terminal predeterminada:
 
-- `animation` (valor boleano)
-- `flicker` (valor boleano)
+- `animation` (integer)
+- `flicker` (string)
 
 Para cambiar los valores por defecto o la configuracion predeterminada de **todos** los usuarios hay que situarnos en el archivo `settings.py`, y modificar las constantes `USER_DEFAULT_COLOR` y `USER_DEFAULT_TEXT_SPEED`, de la siguiente manera:
 
 ```python
 ...
-USER_DEFAULT_ANIMATION = True
-USER_DEFAULT_FLICKER = True
+# Warning!: integer values only!, valid values: 0, 12
+USER_DEFAULT_ANIMATION = 12
+
+# Warning: string value only!, valid values: 'A_BLINK', 'A_STANDOUT'
+USER_DEFAULT_FLICKER = 'A_BLINK'
 ...
 ```
 
@@ -151,9 +154,12 @@ Un ejemplo:
 ```python
 >>> user = User('Juan', 'juan123')
 >>> user.animation_config
-True
+12
 >>> user.flicker_config
-False
+524288
+>>> import curses
+>>> curses.A_BLINK
+524288 # user.flicker_config es igual a curses.A_BLINK
 ```
 
 Para actualisar la configuracion de un usuario, hay que simplemente modificar los atributos mencionados, de la siguiente manera:
@@ -161,10 +167,23 @@ Para actualisar la configuracion de un usuario, hay que simplemente modificar lo
 ```python
 >>> user = User('Juan', 'juan123')
 >>> user.animation_config
-True
->>> user.animation_config = False
+12
+>>> user.animation_config = 0
 >>> user.animation_config
-False
+0
+```
+
+En cuanto al `flicker` es diferente:
+```python
+>>> user = User('Juan', 'juan123')
+>>> import curses
+>>> user.flicker_config == curses.A_BLINK
+True
+>>> user.flicker_config = 'A_STANDOUT'
+>>> user.flicker_config == curses.A_STANDOUT
+True
+>>> user.flicker_config
+65536
 ```
 
 Son atributos normales y corrientes, asi de simple...
