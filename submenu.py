@@ -1,5 +1,22 @@
 import curses
 import start, nv0, fonts
+from db.users import User
+from db.base import DatabaseManagementSystem
+
+try:
+	DatabaseManagementSystem.initilize_tables()
+	DatabaseManagementSystem.run_query("SELECT * FROM users")
+	username = str('User')
+	password = str('password')
+
+	if User(username, password).authenticate_user():
+	    user = User(username, password)
+	else:
+		User(username, password).create_user()
+		user = User(username, password)
+except:
+	curses.endwin()
+	raise
 
 screen = curses.initscr()
 
@@ -12,9 +29,15 @@ screen.keypad(1)
 
 #------------------------------------Base de Datos------------------------------------
 #-----------------Configuración-----------------
-animation = True #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Animación activada SI/NO
-flicker = True #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Parpadeo activado SI/NO
-
+#animation = True #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Animación activada SI/NO
+#flicker = True #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Parpadeo activado SI/NO
+try:
+	animation = user.animation_config
+	flicker = user.flicker_config
+except:
+	curses.endwin()
+	raise
+	
 color_bold = ('white') #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Color de fondo.
 color_lyrics = ('black') #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Color de letra.
 
