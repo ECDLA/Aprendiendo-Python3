@@ -17,14 +17,25 @@ def user_authentication_required(func):
 
 class UserConfigurationTableManagement:
     column_name = None
+    _query_result = None
+
+    def __getattribute__(self, name):
+        if name in ['__get__', '__set__']:
+            if super().__getattribute__('column_name') is None:
+                raise Exception('Attribute "column_name" must not be None.')
+
+        return super().__getattribute__(name)
 
     @user_authentication_required
     def __get__(self, obj, type):
-        return DatabaseManagementSystem.run_query(
-            f'SELECT {self.column_name} FROM users_configuration WHERE user_id = ?', 
-            [obj.id]
+        if self._query_result is None:
+            self._query_result = DatabaseManagementSystem.run_query(
+                f'SELECT {self.column_name} FROM users_configuration WHERE user_id = ?', 
+                [obj.id]
 
-        ).fetchone()[0]
+            ).fetchone()[0]
+            
+        return self._query_result
 
     @user_authentication_required
     def __set__(self, obj, value):
@@ -32,6 +43,8 @@ class UserConfigurationTableManagement:
             f'UPDATE users_configuration SET {self.column_name} = ? WHERE user_id = ?', 
             [value, obj.id]
         )
+        
+        self._query_result = None
 
     def __delete__(self, obj): pass
 
@@ -47,7 +60,7 @@ class AnimationColumnManagement(UserConfigurationTableManagement):
 
 class FlickerColumnManagement(UserConfigurationTableManagement):
     column_name = 'flicker'
-    VALID_VALUES = ['A_BLINK', 'A_STANDOUT']
+    VALID_VALUES = ('A_BLINK', 'A_STANDOUT')
 
     def __get__(self, obj, type):
         return getattr(curses, super().__get__(obj, type))
