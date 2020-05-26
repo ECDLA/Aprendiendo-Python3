@@ -1,34 +1,18 @@
 import curses
 import fonts, options
 from db.users import User
-from db.base import DatabaseManagementSystem
 
-try:
-	DatabaseManagementSystem.initilize_tables()
-	DatabaseManagementSystem.run_query("SELECT * FROM users")
-	username = str('User')
-	password = str('password')
+username = str('User')
+password = str('password')
 
-	if User(username, password).authenticate_user():
-	    user = User(username, password)
-	else:
-		User(username, password).create_user()
-		user = User(username, password)
-except:
-	curses.endwin()
-	raise
+if User(username, password).authenticate_user():
+    user = User(username, password)
+else:
+	User(username, password).create_user()
+	user = User(username, password)
 
 #------------------------------------Base de Datos------------------------------------
 #-----------------Configuración-----------------
-#animation = True #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Animación activada SI/NO
-#flicker = True #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Parpadeo activado SI/NO
-try:
-	animation = user.animation_config
-	flicker = user.flicker_config
-except:
-	curses.endwin()
-	raise
-
 color_bold = ('white') #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Color de fondo.
 color_lyrics = ('black') #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Color de letra.
 
@@ -66,22 +50,6 @@ COLOR_BOLD = { #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 }
 
 #-----------------------------------------------<<<
-
-#----------------Animacion SI/NO----------------
-if animation == True: #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Animación por defecto 12ms
-	animation = 25
-
-elif animation == False:
-	animation = 0
-#-----------------------------------------------<<<
-
-#----------------Parpadeo SI/NO-----------------
-if flicker == True:
-	flicker = curses.A_BLINK
-
-elif flicker == False:
-	flicker = curses.A_STANDOUT
-#----------------------------------------------<<<
 
 #-------------------Colores--------------------
 color_lyrics = COLOR_LYRICS[color_lyrics] #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . Almacena los colores.
@@ -170,8 +138,7 @@ def opt(num, opt):
 
 			if option == True:
 				#------BASE DE DATOS------
-				flicker = True
-				user.flicker_config = flicker
+				user.flicker_config = 'A_STANDOUT'
 				#-------------------------
 
 				main_exit(screen)
@@ -179,8 +146,7 @@ def opt(num, opt):
 
 			elif option == False:
 				#------BASE DE DATOS------
-				flicker = False
-				user.flicker_config = flicker
+				user.flicker_config = 'A_BLINK'
 				#-------------------------
 				
 				main_exit(screen)
@@ -209,7 +175,7 @@ def main_exit(screen):
 
 	x2 = x
 	screen.addstr(x2, 3, 'Parpadeo', curses.color_pair(2) | curses.A_BOLD)
-	curses.napms(animation)
+	curses.napms(user.animation_config)
 
 	screen.erase()
 	screen.refresh()

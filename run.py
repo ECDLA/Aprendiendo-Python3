@@ -3,20 +3,17 @@ import curses
 from db.users import User
 from db.base import DatabaseManagementSystem
 
-try:
-	DatabaseManagementSystem.initilize_tables()
-	DatabaseManagementSystem.run_query("SELECT * FROM users")
-	username = str('User')
-	password = str('password')
+DatabaseManagementSystem.initilize_tables()
+DatabaseManagementSystem.run_query("SELECT * FROM users")
 
-	if User(username, password).authenticate_user():
-	    user = User(username, password)
-	else:
-		User(username, password).create_user()
-		user = User(username, password)
-except:
-	curses.endwin()
-	raise
+username = str('User')
+password = str('password')
+
+if User(username, password).authenticate_user():
+    user = User(username, password)
+else:
+	User(username, password).create_user()
+	user = User(username, password)
 
 
 screen = curses.initscr()
@@ -29,15 +26,6 @@ screen.keypad(1)
 
 #------------------------------------Base de Datos------------------------------------
 #-----------------Configuración-----------------
-#animation = True #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Animación activada SI/NO
-#flicker = True #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Parpadeo activado SI/NO
-try:
-	animation = user.animation_config
-	flicker = user.flicker_config
-except:
-	curses.endwin()
-	raise
-
 color_bold = ('white') #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Color de fondo.
 color_lyrics = ('black') #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Color de letra.
 
@@ -75,22 +63,6 @@ COLOR_BOLD = { #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 }
 
 #-----------------------------------------------<<<
-
-#----------------Animacion SI/NO----------------
-if animation == True: #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Animación por defecto 12ms
-	animation = 12
-
-elif animation == False:
-	animation = 0
-#-----------------------------------------------<<<
-
-#----------------Parpadeo SI/NO-----------------
-if flicker == True:
-	flicker = curses.A_BLINK
-
-elif flicker == False:
-	flicker = curses.A_STANDOUT
-#----------------------------------------------<<<
 
 #-------------------Colores--------------------
 color_lyrics = COLOR_LYRICS[color_lyrics] #. . . . . . . . . . . . . . . . . . . . . . . . . . . . . Almacena los colores.
@@ -230,7 +202,7 @@ def up_down(num):
 		group()
 
 		screen.addstr(line, 3, '        ')
-		fonts.animation(screen, '|> Comenzar ', line, animation, flicker)
+		fonts.animation(screen, '|> Comenzar ', line, user.animation_config, user.flicker_config)
 
 	elif num == 3:
 		screen.border()
@@ -238,7 +210,7 @@ def up_down(num):
 		group()
 
 		screen.addstr(line, 3, '         ')
-		fonts.animation(screen, '|> Opciones ', line, animation, flicker)
+		fonts.animation(screen, '|> Opciones ', line, user.animation_config, user.flicker_config)
 
 	elif num == 2:
 		screen.border()
@@ -246,7 +218,7 @@ def up_down(num):
 		group()
 
 		screen.addstr(line, 3, '          ')
-		fonts.animation(screen, '|> Acerca De ', line, animation, flicker)
+		fonts.animation(screen, '|> Acerca De ', line, user.animation_config, user.flicker_config)
 
 
 	elif num == 1:
@@ -255,7 +227,7 @@ def up_down(num):
 		group()
 
 		screen.addstr(line, 3, '      ')
-		fonts.animation(screen, '|> Salir ', line, animation, flicker)
+		fonts.animation(screen, '|> Salir ', line, user.animation_config, user.flicker_config)
 
 def main_space():
 	fonts.flicker_center(screen, TEXT[1], x)
