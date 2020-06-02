@@ -92,61 +92,56 @@ class User:
     def create_user(self):
         """ Returns True if the user was created successfully, and False if it is the opposite. """
         
-        if not self.is_authenticated:
-            try:
-                password_hash = self.generate_password_hash(self._password)
+        if self.is_authenticated: return None
 
-                DatabaseManagementSystem.run_query(
-                    'INSERT INTO users VALUES(?, ?, ?)',  (None, self.username, password_hash)
-                )
+        try:
+            password_hash = self.generate_password_hash(self._password)
 
-                result = DatabaseManagementSystem.run_query(
-                    'SELECT id FROM users WHERE username = ?', (self.username,)
+            DatabaseManagementSystem.run_query(
+                'INSERT INTO users VALUES(?, ?, ?)',  (None, self.username, password_hash)
+            )
 
-                ).fetchall()
+            # Set attributes
+            self.id = DatabaseManagementSystem.run_query(
+                'SELECT id FROM users WHERE username = ?', (self.username,)
 
-                # Set attributes
-                self.id = result[0][0]
-                self._password = password_hash
-                self.is_authenticated = True
+            ).fetchone()[0]
 
-                # Create user settigs
-                DatabaseManagementSystem.run_query(
-                    'INSERT INTO users_configuration VALUES(?, ?, ? ,?)', 
-                    (None, USER_DEFAULT_ANIMATION, USER_DEFAULT_FLICKER, self.id)
-                )
+            self._password = password_hash
+            self.is_authenticated = True
 
-                return True
+            # Create user settigs
+            DatabaseManagementSystem.run_query(
+                'INSERT INTO users_configuration VALUES(?, ?, ? ,?)', 
+                (None, USER_DEFAULT_ANIMATION, USER_DEFAULT_FLICKER, self.id)
+            )
 
-            except sqlite3.IntegrityError:
-                return False
-        else:
-            return None
+            return True
+
+        except sqlite3.IntegrityError:
+            return False
 
     def authenticate_user(self):
         """ Returns True if the user authenticated successfully, and False if the opposite """
 
-        if not self.is_authenticated:
-            password_hash = self.generate_password_hash(self._password)
+        if self.is_authenticated: return True
 
-            result = DatabaseManagementSystem.run_query(
-                'SELECT id FROM users WHERE username = ? AND password = ?', 
-                (self.username, password_hash)
-                
-            ).fetchall()
+        password_hash = self.generate_password_hash(self._password)
 
-            if result:
-                # Set attributes
-                self.id = result[0][0]
-                self._password = password_hash
-                self.is_authenticated = True
+        result = DatabaseManagementSystem.run_query(
+            'SELECT id FROM users WHERE username = ? AND password = ?', 
+            (self.username, password_hash)
+            
+        ).fetchone()
 
-                return True
+        if not result: return False
 
-            return False
-        
-        else:
-            return True
+        # Set attributes
+        self.id = result[0]
+        self._password = password_hash
+        self.is_authenticated = True
+
+        return True
 
 if __name__ == '__main__':
     pass
